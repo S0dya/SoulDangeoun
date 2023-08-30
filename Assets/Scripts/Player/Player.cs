@@ -7,14 +7,16 @@ public class Player : SingletonMonobehaviour<Player>
     [SerializeField] FloatingJoystick fJoystick;
     [SerializeField] Rigidbody2D rb;
 
-    [SerializeField] GameObject bulletPrefab;
+    [SerializeField] SO_Weapon weapon;
 
     Coroutine movementCor;
     Coroutine shootingCor;
 
-    Vector2 pointingDirection = new Vector2(0, 1);
+    [HideInInspector] public Vector2 pointingDirection = new Vector2(0, 1);
+    [HideInInspector] public Vector2 shootingDirection = new Vector2(0, 1);
 
     bool canShoot = true;
+    [HideInInspector] public bool seesEnemy;
 
     protected override void Awake()
     {
@@ -25,6 +27,18 @@ public class Player : SingletonMonobehaviour<Player>
     void Start()
     {
         
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            StartShooting();
+        }
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            StopShooting();
+        }
     }
 
     //Input
@@ -67,7 +81,6 @@ public class Player : SingletonMonobehaviour<Player>
             if (canShoot)
             {
                 Shoot();
-                Debug.Log("Shoot");
                 StartCoroutine(Reloading());
             }
             yield return null;
@@ -76,14 +89,16 @@ public class Player : SingletonMonobehaviour<Player>
     IEnumerator Reloading()
     {
         canShoot = false;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(weapon.reloadingSpeed);
         canShoot = true;
     }
     void Shoot()
     {
-        GameObject bulletObj = Instantiate(bulletPrefab, (Vector2)transform.position + pointingDirection, Quaternion.identity);
-        Rigidbody2D bulletRb = bulletObj.GetComponent<Rigidbody2D>();
-        bulletRb.AddForce(pointingDirection * 10f, ForceMode2D.Impulse);
+        if (!seesEnemy)
+        {
+            shootingDirection = pointingDirection;
+        }
+        weapon.Shoot((Vector2)transform.position, shootingDirection);
     }
 
 }

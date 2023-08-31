@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 72ef9e243f646ba4f98fe7bd6f28f225, type: 3}
-  m_Name: PlayerPistol
+  m_Name: PlayerRiffle
   m_EditorClassIdentifier: 
   <itemCode>k__BackingField: 0
-  <Name>k__BackingField: pistol
-  <ItemImage>k__BackingField: {fileID: 21300000, guid: 5214755098e7b7048a9fede45d6e770c, type: 3}
+  <Name>k__BackingField: Riffle
+  <ItemImage>k__BackingField: {fileID: 21300000, guid: 161aaac10d7877149a68e7ba57842374, type: 3}
   bulletPrefab: {fileID: 5396898046633677643, guid: 52efc0596f0059b41919623ba87e7cf8, type: 3}
-  speed: 20
-  reloadingTimeMin: 0.7
-  reloadingTimeMax: 1
-  manaOnShoot: 3
-  speedOfMovementMultiplier: 0
+  speed: 40
+  reloadingTimeMin: 0.2
+  reloadingTimeMax: 0.3
+  manaOnShoot: 5
+  speedOfMovementMultiplier: 0.5

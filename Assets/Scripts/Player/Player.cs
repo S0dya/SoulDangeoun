@@ -11,25 +11,39 @@ public class Player : SingletonMonobehaviour<Player>
 
     [SerializeField] SO_Weapon weapon;
     [SerializeField] Transform weaponTransform;
+    [SerializeField] SO_Weapon[] weapons = new SO_Weapon[2];
+    [SerializeField] SpriteRenderer weaponSprite;
 
-    [SerializeField] Image HPBar;
-    [SerializeField] TextMeshProUGUI HPText;
+
+    [SerializeField] SO_Power power;
+    [SerializeField] Image activityOfPowerButton;
+
+
+    [SerializeField] Image[] bars;
+    [SerializeField] TextMeshProUGUI[] barsText;
 
     Coroutine movementCor;
     Coroutine shootingCor;
+    Coroutine armorRegenerationCor;
 
     [HideInInspector] public Vector2 pointingDirection = new Vector2(0, 1);
     [HideInInspector] public Vector2 shootingDirection = new Vector2(0, 1);
 
     bool canShoot = true;
+    bool hasManaToShoot = true;
     [HideInInspector] public bool seesEnemy;
     bool isLookingOnRight;
     [HideInInspector] public bool isEnemyOnTheRight;
-
+    bool canUsePower = true;
 
     //local
-    float curHP = 1;
-    float healthMultiplier = 1.0f / 5;
+    int[] maxStats = new int[3] { 5, 3, 200 };
+    float[] curStats = new float[3] { 1, 1, 1};
+
+    int maxMana = 200;
+    float curMana = 1;
+
+    int curWeaponIndex;
 
     protected override void Awake()
     {
@@ -52,6 +66,10 @@ public class Player : SingletonMonobehaviour<Player>
         {
             StopShooting();
         }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            OnUsePowerButton();
+        }
     }
     
     void FixedUpdate()
@@ -71,6 +89,43 @@ public class Player : SingletonMonobehaviour<Player>
     {
         if (movementCor != null) StopCoroutine(movementCor);
     }
+    
+    public void StartShooting()
+    {
+        shootingCor = StartCoroutine(ShootingCor());
+    }
+    public void StopShooting()
+    {
+        if (shootingCor != null) StopCoroutine(shootingCor);
+    }
+    
+    //Buttons
+    public void OnUsePowerButton()
+    {
+        if (canUsePower)
+        {
+            StartCoroutine(PowerActivityCor());
+            power.ActivatePower();
+        }
+    }
+
+    public void OnChangeWeaponButton()
+    {
+        int i = curWeaponIndex + 1;
+        int newI = (i == weapons.Length ? 0 : i);
+        if (weapons[newI] != null)
+        {
+            weapons[curWeaponIndex].UnSet();
+            curWeaponIndex = newI;
+            weapons[curWeaponIndex].Set();
+
+            weaponSprite.sprite = weapons[newI].ItemImage;
+            weapon = weapons[newI];
+        }
+    }
+    
+
+    //inputCor
     IEnumerator MovementCor()
     {
         while (true)
@@ -79,7 +134,7 @@ public class Player : SingletonMonobehaviour<Player>
             {
                 pointingDirection = fJoystick.Direction.normalized;
             }
-            rb.MovePosition(rb.position + fJoystick.Direction * 5 * Time.fixedDeltaTime);
+            rb.MovePosition(rb.position + fJoystick.Direction * 5 * Settings.speedMultiplier * Time.fixedDeltaTime);
             if (seesEnemy)
             {
                 if ((isEnemyOnTheRight && !isLookingOnRight) || (!isEnemyOnTheRight && isLookingOnRight))
@@ -95,19 +150,11 @@ public class Player : SingletonMonobehaviour<Player>
         }
     }
 
-    public void StartShooting()
-    {
-        shootingCor = StartCoroutine(ShootingCor());
-    }
-    public void StopShooting()
-    {
-        if (shootingCor != null) StopCoroutine(shootingCor);
-    }
     IEnumerator ShootingCor()
     {
         while (true)
         {
-            if (canShoot)
+            if (canShoot && hasManaToShoot)
             {
                 Shoot();
                 StartCoroutine(Reloading());
@@ -120,6 +167,36 @@ public class Player : SingletonMonobehaviour<Player>
         canShoot = false;
         yield return new WaitForSeconds(Random.Range(weapon.reloadingTimeMin, weapon.reloadingTimeMax));
         canShoot = true;
+    }
+
+    
+
+    //UICor
+    IEnumerator PowerActivityCor()
+    {
+        canUsePower = false;
+        float time = 0;
+        float reload = power.reloadOfPower;
+        while (time < reload)
+        {
+            activityOfPowerButton.fillAmount = time / reload;
+            time += Time.deltaTime;
+
+            yield return null;
+        }
+        activityOfPowerButton.fillAmount = 1;
+        canUsePower = true;
+    }
+
+    IEnumerator ArmorRegenerationCor()
+    {
+        yield return new WaitForSeconds(5f);
+
+        while (curStats[1] < 1)
+        {
+            ChangeValueForBar(1, -1);
+            yield return new WaitForSeconds(2f);
+        }
     }
 
     //other
@@ -146,26 +223,56 @@ public class Player : SingletonMonobehaviour<Player>
         }
         
         weapon.Shoot((Vector2)transform.position + shootingDirection, shootingDirection);
+        ChangeMana(weapon.manaOnShoot);
     }
 
 
+
+    //UI
     public void TakeDamage(float value)
     {
-        float newHP = Mathf.Max(curHP - (value * healthMultiplier), 0);
-        curHP = newHP;
-        HPBar.fillAmount = newHP;
-
-        int actualHP = (int)(newHP * 5);
-        ChangeText(HPText, actualHP);
-        if (actualHP == 0)
+        if (armorRegenerationCor != null) StopCoroutine(armorRegenerationCor);
+        if (curStats[1] != 0)
         {
-            Die();
+            int actualVal = ChangeValueForBar(1, value);
         }
+        else
+        {
+            int actualVal = ChangeValueForBar(0, value);
+            if (actualVal == 0)
+            {
+                Die();
+            }
+        }
+        armorRegenerationCor = StartCoroutine(ArmorRegenerationCor());
     }
-    void ChangeText(TextMeshProUGUI text, int amount)
+    public void ChangeMana(float value)
     {
-        text.text = $"{amount} / {5}";
+        int actualVal = ChangeValueForBar(2, value);
+        hasManaToShoot = actualVal != 0;
     }
+
+    public int ChangeValueForBar(int i, float value)
+    {
+        float calc = curStats[i] - (value * (1.0f / maxStats[i]));
+        float newVal = (calc > 0.01f ? calc : 0);
+        curStats[i] = newVal;
+        bars[i].fillAmount = newVal;
+
+        int actualVal = (int)(newVal * maxStats[i]);
+        ChangeText(i, actualVal);
+
+        return actualVal;
+    }
+
+    void ChangeText(int i, int amount)
+    {
+        barsText[i].text = $"{amount} / {maxStats[i]}";
+    }
+
+
+
+
 
     void Die()
     {

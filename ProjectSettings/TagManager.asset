@@ -9,6 +9,8 @@ TagManager:
   - EnemyBullet
   - SmallEnemy
   - Enemy
+  - Box
+  - FollowingObject
   layers:
   - Default
   - TransparentFX

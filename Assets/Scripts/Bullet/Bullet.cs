@@ -13,6 +13,12 @@ public class Bullet : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        else if (collision.gameObject.CompareTag("Box"))
+        {
+            Box box = collision.gameObject.GetComponent<Box>();
+            box.DestroyObjectWithMana();
+            Destroy(gameObject);
+        }
         else if (enemyLayer == (enemyLayer | (1 << collision.gameObject.layer)))
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();

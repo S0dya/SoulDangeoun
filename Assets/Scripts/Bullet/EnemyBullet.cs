@@ -12,6 +12,12 @@ public class EnemyBullet : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        else if (collision.gameObject.CompareTag("Box"))
+        {
+            Box box = collision.gameObject.GetComponent<Box>();
+            box.DestroyObject();
+            Destroy(gameObject);
+        }
         else if (collision.gameObject.CompareTag("Player"))
         {
             Player player = collision.gameObject.GetComponent<Player>();

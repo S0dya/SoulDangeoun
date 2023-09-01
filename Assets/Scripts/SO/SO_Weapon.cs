@@ -20,6 +20,9 @@ public class SO_Weapon : SO_Item
     {
         GameObject bulletObj = Instantiate(bulletPrefab, initialPos, Quaternion.identity);
 
+        float angle = Mathf.Atan2(shootingDirection.y, shootingDirection.x) * Mathf.Rad2Deg - 90;
+        bulletObj.transform.rotation = Quaternion.Euler(0, 0, angle);
+
         Rigidbody2D bulletRb = bulletObj.GetComponent<Rigidbody2D>();
         bulletRb.AddForce(shootingDirection * speed, ForceMode2D.Impulse);
     }

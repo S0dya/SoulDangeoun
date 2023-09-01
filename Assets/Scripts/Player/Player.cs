@@ -10,7 +10,8 @@ public class Player : SingletonMonobehaviour<Player>
     [SerializeField] Rigidbody2D rb;
 
     [SerializeField] SO_Weapon weapon;
-    [SerializeField] Transform weaponTransform;
+    [SerializeField] Transform weaponTransform; 
+    [SerializeField] Transform weaponShootingTransform; 
     [SerializeField] SO_Weapon[] weapons = new SO_Weapon[2];
     [SerializeField] SpriteRenderer weaponSprite;
 
@@ -18,9 +19,10 @@ public class Player : SingletonMonobehaviour<Player>
     [SerializeField] SO_Power power;
     [SerializeField] Image activityOfPowerButton;
 
-
+    //UI
     [SerializeField] Image[] bars;
     [SerializeField] TextMeshProUGUI[] barsText;
+    [SerializeField] TextMeshProUGUI goldText;
 
     Coroutine movementCor;
     Coroutine shootingCor;
@@ -39,10 +41,8 @@ public class Player : SingletonMonobehaviour<Player>
     //local
     int[] maxStats = new int[3] { 5, 3, 200 };
     float[] curStats = new float[3] { 1, 1, 1};
-
-    int maxMana = 200;
     float curMana = 1;
-
+    int curGold;
     int curWeaponIndex;
 
     protected override void Awake()
@@ -222,7 +222,7 @@ public class Player : SingletonMonobehaviour<Player>
             shootingDirection = pointingDirection;
         }
         
-        weapon.Shoot((Vector2)transform.position + shootingDirection, shootingDirection);
+        weapon.Shoot((Vector2)weaponShootingTransform.position, shootingDirection);
         ChangeMana(weapon.manaOnShoot);
     }
 
@@ -251,11 +251,12 @@ public class Player : SingletonMonobehaviour<Player>
         int actualVal = ChangeValueForBar(2, value);
         hasManaToShoot = actualVal != 0;
     }
-
     public int ChangeValueForBar(int i, float value)
     {
         float calc = curStats[i] - (value * (1.0f / maxStats[i]));
         float newVal = (calc > 0.01f ? calc : 0);
+        newVal = Mathf.Min(newVal, 1);
+
         curStats[i] = newVal;
         bars[i].fillAmount = newVal;
 
@@ -264,10 +265,15 @@ public class Player : SingletonMonobehaviour<Player>
 
         return actualVal;
     }
-
     void ChangeText(int i, int amount)
     {
         barsText[i].text = $"{amount} / {maxStats[i]}";
+    }
+    
+    public void ChangeGold(int value)
+    {
+        curGold += value;
+        goldText.text = curGold.ToString();
     }
 
 

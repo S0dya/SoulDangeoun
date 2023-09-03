@@ -4,14 +4,9 @@ using UnityEngine;
 
 public class GameManager : SingletonMonobehaviour<GameManager>
 {
-
-
     protected override void Awake()
     {
         base.Awake();
 
     }
-
-    
-
 }

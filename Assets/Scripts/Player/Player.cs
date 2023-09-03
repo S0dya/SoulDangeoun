@@ -70,6 +70,10 @@ public class Player : SingletonMonobehaviour<Player>
         {
             OnUsePowerButton();
         }
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            LevelGenerationManager.I.GenerateLevel();
+        }
     }
     
     void FixedUpdate()

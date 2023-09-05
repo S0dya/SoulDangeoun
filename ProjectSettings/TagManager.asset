@@ -12,6 +12,8 @@ TagManager:
   - Box
   - FollowingObject
   - CoridorsParent
+  - LevelsParent
+  - EnemiesParent
   layers:
   - Default
   - TransparentFX

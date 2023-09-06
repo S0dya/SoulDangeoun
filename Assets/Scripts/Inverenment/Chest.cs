@@ -28,13 +28,13 @@ public class Chest : MonoBehaviour
     {
         Vector2 originalScale = transform.localScale;
 
-        LeanTween.scale(gameObject, originalScale * 1.2f, 1)
+        LeanTween.scale(gameObject, originalScale * 1.1f, 0.2f)
             .setEase(LeanTweenType.easeOutQuad)
             .setOnComplete(() =>
             {
-                LeanTween.delayedCall(gameObject, 1, () =>
+                LeanTween.delayedCall(gameObject, 0.2f, () =>
                 {
-                    LeanTween.scale(gameObject, originalScale, 1)
+                    LeanTween.scale(gameObject, originalScale, 0.2f)
                         .setEase(LeanTweenType.easeInQuad)
                         .setOnComplete(() =>
                         {
@@ -42,8 +42,6 @@ public class Chest : MonoBehaviour
                         });
                 });
             });
-
-
     }
 
     void Open()

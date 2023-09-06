@@ -32,9 +32,9 @@ public class FollowingObject : MonoBehaviour
         while (true)
         {
             Vector2 direction = (playerTransform.position - transform.position).normalized;
-            rb.MovePosition((Vector2)transform.position + direction * 14 * Time.deltaTime);
+            rb.velocity = direction * 14;
 
-            if (Vector2.Distance(transform.position, playerTransform.position) < 0.3f) break;
+            if (Vector2.Distance(transform.position, playerTransform.position) < 0.5f) break;
             yield return null;
         }
 

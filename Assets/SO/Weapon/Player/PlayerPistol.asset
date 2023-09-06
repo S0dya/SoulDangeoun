@@ -17,7 +17,7 @@ MonoBehaviour:
   <ItemImage>k__BackingField: {fileID: 21300000, guid: 5214755098e7b7048a9fede45d6e770c, type: 3}
   bulletPrefab: {fileID: 5396898046633677643, guid: 52efc0596f0059b41919623ba87e7cf8, type: 3}
   speed: 20
-  reloadingTimeMin: 0.7
+  reloadingTimeMin: 0.007
   reloadingTimeMax: 1
-  manaOnShoot: 3
+  manaOnShoot: 1
   speedOfMovementMultiplier: 0

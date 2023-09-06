@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Room : MonoBehaviour
 {
@@ -12,7 +13,9 @@ public class Room : MonoBehaviour
     [SerializeField] GameObject[] wallsObj;
     [SerializeField] Collider2D collider;
 
-    bool cleared;
+    public bool cleared;
+
+    [SerializeField] Tilemap wallTilemap;
 
     public void DrawWalls(bool val)
     {
@@ -29,22 +32,29 @@ public class Room : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            //SetMap
+            LevelGenerationManager.I.createdLevelsUIList[index].HighlightLevel(true);
+
             if (!cleared)
             {
                 cleared = true;
                 DrawWalls(true);
 
-                float x = transform.position.x;
-                float y = transform.position.y;
-                float halfX = (float)halfSize.x;
-                float halfY = (float)halfSize.y;
+                int x = (int)transform.position.x;
+                int y = (int)transform.position.y;
 
-                SpawnManager.I.SpawnEnemies(x - halfX, x + halfX, y - halfY, y + halfY);
-
+                SpawnManager.I.SetPos(wallTilemap, this, x - halfSize.x + 1, x + halfSize.x - 1, 
+                    y - halfSize.y + 1, y + halfSize.y - 1);
             }
         }
     }
 
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            LevelGenerationManager.I.createdLevelsUIList[index].HighlightLevel(false);
+        }
+    }
 
+    public void DestroyObject() => Destroy(gameObject);
 }

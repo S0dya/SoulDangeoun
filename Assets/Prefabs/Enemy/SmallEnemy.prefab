@@ -50,6 +50,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 4225549585042992107}
+  HPBar: {fileID: 4225549585919135338}
+  weapon: {fileID: 11400000, guid: 78f31d293f5719841bad7f94885756f3, type: 2}
+  HPMultiplier: 1
   distanceRandomTargetPick: 1
   minTimeRandomTargetPick: 2
   maxTimeRandomTargetPick: 8

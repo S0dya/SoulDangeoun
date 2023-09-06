@@ -174,8 +174,8 @@ MonoBehaviour:
   - {fileID: 616457233749272306, guid: 04cdd95a360199f4aa944eb1f29b27e3, type: 3}
   uniqueRooms:
   - {fileID: 616457233749272306, guid: 32776ceee2342554d9abf7877f2d1eda, type: 3}
-  floorTilemapObject: {fileID: 138419215114487352, guid: e1835ee43f67bdb4a9cfd77b8ddc1f36, type: 3}
-  wallsTilemapObject: {fileID: 1213168284437043603, guid: 82becce3266b7b94ba4f3e8ef8cc9da0, type: 3}
+  floorTilemapPrefab: {fileID: 138419215114487352, guid: e1835ee43f67bdb4a9cfd77b8ddc1f36, type: 3}
+  wallsTilemapPrefab: {fileID: 1213168284437043603, guid: 82becce3266b7b94ba4f3e8ef8cc9da0, type: 3}
   floorTiles:
   - {fileID: 11400000, guid: 2355c1aeca8300447b9c6f5ddc63acb1, type: 2}
   leftWallTiles:
@@ -186,6 +186,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 320448339b5a9874aaaa6468b06034c8, type: 2}
   topWallTiles:
   - {fileID: 11400000, guid: 5721869ac9fc16043b0b6a00ee9b3403, type: 2}
+  levelUIPrefab: {fileID: 3211748931077700557, guid: 2eeb18c8239d8c3438dc9ce284cd3a02, type: 3}
 --- !u!1 &652420254
 GameObject:
   m_ObjectHideFlags: 0
@@ -309,3 +310,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EnemyPrefab: {fileID: 4225549585042992110, guid: 6cb0559eaabe6e942af3f0b26123a4c5, type: 3}
+  chestPrefab: {fileID: 8387544120972304950, guid: 6874628e7f7bac440a33e6c18df3a089, type: 3}
+  currentEnemiesAmount: 0

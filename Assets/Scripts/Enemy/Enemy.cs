@@ -149,6 +149,13 @@ public class Enemy : MonoBehaviour
             PlayerEnemyTrigger.I.CheckForNearestEnemy();
         }
 
+        SpawnManager.I.currentEnemiesAmount--;
+        if (SpawnManager.I.currentEnemiesAmount <= 0)
+        {
+            SpawnManager.I.SpawnMoreChecck();
+        }
+
+
         Destroy(gameObject);
     }
 

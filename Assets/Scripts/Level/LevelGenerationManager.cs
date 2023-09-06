@@ -1,17 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.AI;
 using UnityEngine.Tilemaps;
+using NavMeshPlus.Components;
 
 public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationManager>
 {
+    NavMeshSurface surface;
+
     [SerializeField] GameObject startRoom;
     [SerializeField] GameObject endRoom;
     [SerializeField] GameObject[] enemiesRooms;
     [SerializeField] GameObject[] uniqueRooms;
 
-    [SerializeField] GameObject floorTilemapObject;
-    [SerializeField] GameObject wallsTilemapObject;
+    [SerializeField] GameObject floorTilemapPrefab;
+    [SerializeField] GameObject wallsTilemapPrefab;
     Transform levelsParentTransform;
     Transform coridorsParentTransform;
     Tilemap floorTilemap;
@@ -22,25 +27,48 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
     [SerializeField] TileBase[] downWallTiles;
     [SerializeField] TileBase[] topWallTiles;
 
+    //UI
+    [SerializeField] GameObject levelUIPrefab;
+    Transform mapParent;
+
+    //local
+    List<Room> createdRoomsList = new List<Room>();
+    public List<LevelUI> createdLevelsUIList = new List<LevelUI>();
 
     protected override void Awake()
     {
         base.Awake();
 
+        surface = GameObject.FindGameObjectWithTag("NavMesh").GetComponent<NavMeshSurface>();
         levelsParentTransform = GameObject.FindGameObjectWithTag("LevelsParent").transform;
         coridorsParentTransform = GameObject.FindGameObjectWithTag("CoridorsParent").transform;
+        mapParent = GameObject.FindGameObjectWithTag("Map").transform;
     }
 
+    void Start()
+    {
+        GenerateLevel();
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            GenerateLevel();
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            surface.BuildNavMeshAsync();
+        }
+    }
 
     public void GenerateLevel()
     {
+        Clear();
         int amountOfRooms = Random.Range(5, 5 + Settings.levelAmount);
-        
-        var roomsList = new List<Room>();
         var curRoomPos = Vector2Int.zero;
         var createdRoomsPositionsList = new List<Vector2Int>() { curRoomPos };
 
-        var createdRoomsList = new List<Room>();
 
         GameObject startRoomObj = CreateRoom(startRoom, curRoomPos);
         Room strtRoom = startRoomObj.GetComponent<Room>();
@@ -62,15 +90,24 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
             room.index = i + 1;
             createdRoomsList.Add(room);
         }
-        //BAKE
 
-        GenerateCorridors(createdRoomsList, createdRoomsPositionsList);
-        DrawWallsForLevels(createdRoomsList);
+        GenerateCorridors(createdRoomsPositionsList);
+        DrawWallsForLevels();
+
+        Invoke("NavMeshBake", 0.1f);
     }
+
 
     GameObject CreateRoom(GameObject room, Vector2Int pos)
     {
-        return Instantiate(room, new Vector3Int(pos.x * 30, pos.y * 20, 1), Quaternion.identity, levelsParentTransform);
+        var spawnPos = new Vector3Int(pos.x * Settings.width, pos.y * Settings.height, 1);
+
+        GameObject levelUIObj = Instantiate(levelUIPrefab, mapParent);
+        levelUIObj.transform.localPosition = (Vector2)pos * 15;
+        LevelUI levelUI = levelUIObj.GetComponent<LevelUI>();
+        createdLevelsUIList.Add(levelUI);
+
+        return Instantiate(room, spawnPos, Quaternion.identity, levelsParentTransform);
     }
 
     Vector2Int ChooseDirection(List<Vector2Int> list, Vector2Int curPos, bool isHorizontalDirection)
@@ -115,47 +152,47 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
         }
     }
     
-    void GenerateCorridors(List<Room> roomsList, List<Vector2Int> roomsPositionsList)
+    void GenerateCorridors(List<Vector2Int> roomsPositionsList)
     {
-        GameObject floorTilemapObj = Instantiate(floorTilemapObject, Vector3.zero, Quaternion.identity, coridorsParentTransform);
-        GameObject wallsTilemapObj = Instantiate(wallsTilemapObject, Vector3.zero, Quaternion.identity, coridorsParentTransform);
-        floorTilemap = floorTilemapObj.GetComponent<Tilemap>();
-        wallsTilemap = wallsTilemapObj.GetComponent<Tilemap>();
+        GameObject floorTilemapObject = Instantiate(floorTilemapPrefab, Vector3.zero, Quaternion.identity, coridorsParentTransform);
+        GameObject wallsTilemapObject = Instantiate(wallsTilemapPrefab, Vector3.zero, Quaternion.identity, coridorsParentTransform);
+        floorTilemap = floorTilemapObject.GetComponent<Tilemap>();
+        wallsTilemap = wallsTilemapObject.GetComponent<Tilemap>();
         
-        for (int i = 1; i < roomsList.Count; i++)
+        for (int i = 1; i < createdRoomsList.Count; i++)
         {
             int index = 0;
             Vector2Int curPos = roomsPositionsList[i];
 
-            if (roomsList[i].hasNeighbours[0])
+            if (createdRoomsList[i].hasNeighbours[0])
             {
                 index = roomsPositionsList.IndexOf(curPos + new Vector2Int(-1, 0));
-                DrawCorridorLeft(roomsList[i], roomsList[index], curPos);
-                roomsList[index].hasNeighbours[1] = true;
+                DrawCorridorLeft(createdRoomsList[i], createdRoomsList[index], curPos);
+                createdRoomsList[index].hasNeighbours[1] = true;
             }
-            if (roomsList[i].hasNeighbours[1])
+            if (createdRoomsList[i].hasNeighbours[1])
             {
                 index = roomsPositionsList.IndexOf(curPos + new Vector2Int(1, 0));
-                DrawCorridorRight(roomsList[i], roomsList[index], curPos);
-                roomsList[index].hasNeighbours[0] = true;
+                DrawCorridorRight(createdRoomsList[i], createdRoomsList[index], curPos);
+                createdRoomsList[index].hasNeighbours[0] = true;
             }
-            if (roomsList[i].hasNeighbours[2])
+            if (createdRoomsList[i].hasNeighbours[2])
             {
                 index = roomsPositionsList.IndexOf(curPos + new Vector2Int(0, -1));
-                DrawCorridorDown(roomsList[i], roomsList[index], curPos);
-                roomsList[index].hasNeighbours[3] = true;
+                DrawCorridorDown(createdRoomsList[i], createdRoomsList[index], curPos);
+                createdRoomsList[index].hasNeighbours[3] = true;
             }
-            if (roomsList[i].hasNeighbours[3])
+            if (createdRoomsList[i].hasNeighbours[3])
             {
                 index = roomsPositionsList.IndexOf(curPos + new Vector2Int(0, 1));
-                DrawCorridorTop(roomsList[i], roomsList[index], curPos);
-                roomsList[index].hasNeighbours[2] = true;
+                DrawCorridorTop(createdRoomsList[i], createdRoomsList[index], curPos);
+                createdRoomsList[index].hasNeighbours[2] = true;
             }
         }
     }
 
 
-    void DrawWallsForLevels(List<Room> createdRoomsList)
+    void DrawWallsForLevels()
     {
         foreach (Room room in createdRoomsList)
         {
@@ -163,14 +200,20 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
         }
     }
 
+    void NavMeshBake()
+    {
+        surface.BuildNavMeshAsync();
+    }
+
+
     //tilemap
     void DrawCorridorLeft(Room curRoom, Room prevRoom, Vector2Int curPos)
     {
-        int startPosX = curPos.x * 30 - curRoom.halfSize.x - 1;
-        int endPosLeftX = (curPos.x - 1) * 30 + prevRoom.halfSize.x;
+        int startPosX = curPos.x * Settings.width - curRoom.halfSize.x - 1;
+        int endPosLeftX = (curPos.x - 1) * Settings.width + prevRoom.halfSize.x;
 
-        int startPosY = curPos.y * 20 - 2;
-        int endPosLeftY = curPos.y * 20 + 1;
+        int startPosY = curPos.y * Settings.height - 2;
+        int endPosLeftY = curPos.y * Settings.height + 1;
 
         for (int x = startPosX; x >= endPosLeftX; x--)
         {
@@ -184,11 +227,11 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
     }
     void DrawCorridorRight(Room curRoom, Room prevRoom, Vector2Int curPos)
     {
-        int startPosX = curPos.x * 30 + curRoom.halfSize.x;
-        int endPosLeftX = (curPos.x + 1) * 30 - prevRoom.halfSize.x - 1;
+        int startPosX = curPos.x * Settings.width + curRoom.halfSize.x;
+        int endPosLeftX = (curPos.x + 1) * Settings.width - prevRoom.halfSize.x - 1;
 
-        int startPosY = curPos.y * 20 - 2;
-        int endPosLeftY = curPos.y * 20 + 1;
+        int startPosY = curPos.y * Settings.height - 2;
+        int endPosLeftY = curPos.y * Settings.height + 1;
 
         for (int x = startPosX; x <= endPosLeftX; x++)
         {
@@ -202,11 +245,11 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
     }
     void DrawCorridorDown(Room curRoom, Room prevRoom, Vector2Int curPos)
     {
-        int startPosX = curPos.x * 30 - 2;
-        int endPosLeftX = curPos.x * 30 + 1;
+        int startPosX = curPos.x * Settings.width - 2;
+        int endPosLeftX = curPos.x * Settings.width + 1;
 
-        int startPosY = curPos.y * 20 - curRoom.halfSize.y - 1;
-        int endPosLeftY = (curPos.y - 1) * 20 + prevRoom.halfSize.y;
+        int startPosY = curPos.y * Settings.height - curRoom.halfSize.y - 1;
+        int endPosLeftY = (curPos.y - 1) * Settings.height + prevRoom.halfSize.y;
 
         for (int y = startPosY; y >= endPosLeftY; y--)
         {
@@ -220,11 +263,11 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
     }
     void DrawCorridorTop(Room curRoom, Room prevRoom, Vector2Int curPos)
     {
-        int startPosX = curPos.x * 30 - 2;
-        int endPosLeftX = curPos.x * 30 + 1;
+        int startPosX = curPos.x * Settings.width - 2;
+        int endPosLeftX = curPos.x * Settings.width + 1;
 
-        int startPosY = curPos.y * 20 + curRoom.halfSize.y;
-        int endPosLeftY = (curPos.y + 1) * 20 - prevRoom.halfSize.y - 1;
+        int startPosY = curPos.y * Settings.height + curRoom.halfSize.y;
+        int endPosLeftY = (curPos.y + 1) * Settings.height - prevRoom.halfSize.y - 1;
 
         for (int y = startPosY; y <= endPosLeftY; y++)
         {
@@ -235,5 +278,16 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
             }
             wallsTilemap.SetTile(new Vector3Int(endPosLeftX, y, 0), leftWallTiles[Random.Range(0, leftWallTiles.Length)]);
         }
+    }
+
+    void Clear()
+    {
+        foreach (Room room in createdRoomsList) room.DestroyObject();
+        createdRoomsList = new List<Room>();
+        foreach (LevelUI level in createdLevelsUIList) level.DestroyObject();
+        createdLevelsUIList = new List<LevelUI>();
+
+        Destroy(GameObject.FindGameObjectWithTag("CoridorsFloor"));
+        Destroy(GameObject.FindGameObjectWithTag("CoridorsWalls"));
     }
 }

@@ -11,9 +11,14 @@ TagManager:
   - Enemy
   - Box
   - FollowingObject
-  - CoridorsParent
   - LevelsParent
   - EnemiesParent
+  - NavMesh
+  - CoridorsFloor
+  - CoridorsWalls
+  - CoridorsParent
+  - ChestParent
+  - Map
   layers:
   - Default
   - TransparentFX

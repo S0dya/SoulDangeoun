@@ -12,9 +12,11 @@ public static class Settings
     /// <summary>
     /// level generation 
     /// </summary>
-    public static int width = Screen.width;
-    public static int height = Screen.height;
+    public static int width = 35;
+    public static int height = 25;
+
 
     //local
     public static int levelAmount = 1;
+    public static int amountOfEnemiesOnLevel = 5;
 }

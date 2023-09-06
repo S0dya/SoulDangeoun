@@ -28,8 +28,8 @@ public class Player : SingletonMonobehaviour<Player>
     Coroutine shootingCor;
     Coroutine armorRegenerationCor;
 
-    [HideInInspector] public Vector2 pointingDirection = new Vector2(0, 1);
-    [HideInInspector] public Vector2 shootingDirection = new Vector2(0, 1);
+    [HideInInspector] public Vector2 pointingDirection = new Vector2(1, 0);
+    [HideInInspector] public Vector2 shootingDirection = new Vector2(1, 0);
 
     bool canShoot = true;
     bool hasManaToShoot = true;
@@ -70,10 +70,7 @@ public class Player : SingletonMonobehaviour<Player>
         {
             OnUsePowerButton();
         }
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            LevelGenerationManager.I.GenerateLevel();
-        }
+        
     }
     
     void FixedUpdate()

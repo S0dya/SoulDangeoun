@@ -11,7 +11,12 @@ public class Player : SingletonMonobehaviour<Player>
 
     [SerializeField] SO_Weapon weapon;
     [SerializeField] Transform weaponTransform; 
-    [SerializeField] Transform weaponShootingTransform; 
+    [SerializeField] Transform weaponShootingTransform;
+    //melee
+    [SerializeField] Animator meleeWeaponAnimator;
+    [SerializeField] BoxCollider2D meleeWeaponCollider;
+    [SerializeField] MeleeWeaponTrigger meleeWeaponTrigger;
+
     [SerializeField] SO_Weapon[] weapons = new SO_Weapon[2];
     [SerializeField] SpriteRenderer weaponSprite;
 
@@ -28,8 +33,8 @@ public class Player : SingletonMonobehaviour<Player>
     Coroutine shootingCor;
     Coroutine armorRegenerationCor;
 
-    [HideInInspector] public Vector2 pointingDirection = new Vector2(1, 0);
-    [HideInInspector] public Vector2 shootingDirection = new Vector2(1, 0);
+    [HideInInspector] public Vector2 pointingDirection;
+    [HideInInspector] public Vector2 shootingDirection;
 
     bool canShoot = true;
     bool hasManaToShoot = true;
@@ -53,7 +58,12 @@ public class Player : SingletonMonobehaviour<Player>
 
     void Start()
     {
-        
+        pointingDirection = new Vector2(1, 0);
+        shootingDirection = new Vector2(1, 0);
+
+        //tempLogic
+        weaponSprite.sprite = weapons[0].ItemImage;
+
     }
 
     void Update()
@@ -71,16 +81,14 @@ public class Player : SingletonMonobehaviour<Player>
             OnUsePowerButton();
         }
         
-    }
-    
-    void FixedUpdate()
-    {
         Vector2 direction = (seesEnemy ? shootingDirection : pointingDirection);
         direction.Normalize();
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        weaponTransform.rotation = Quaternion.Euler(0, 0, angle);
+        
+        if (isLookingOnRight) weaponTransform.localRotation = Quaternion.Euler(180, 180, -angle);
+        else weaponTransform.localRotation = Quaternion.Euler(0, 0, angle);
     }
-
+    
     //Input
     public void StartMoving()
     {
@@ -122,6 +130,13 @@ public class Player : SingletonMonobehaviour<Player>
 
             weaponSprite.sprite = weapons[newI].ItemImage;
             weapon = weapons[newI];
+
+            if (weapon.type == 1)
+            {
+                meleeWeaponTrigger.damage = weapon.damage;
+                meleeWeaponCollider.size = weapon.colliderSize;
+                meleeWeaponCollider.offset = weapon.colliderOffset;
+            }
         }
     }
     
@@ -138,16 +153,21 @@ public class Player : SingletonMonobehaviour<Player>
             rb.MovePosition(rb.position + fJoystick.Direction * 5 * Settings.speedMultiplier * Time.fixedDeltaTime);
             if (seesEnemy)
             {
-                if ((isEnemyOnTheRight && !isLookingOnRight) || (!isEnemyOnTheRight && isLookingOnRight))
-                {
-                    ChangeLookingDirection();
-                }
+                CheckIfPlayerLooksAtEnemy();
             }
             else if ((pointingDirection.x < 0 && !isLookingOnRight) || (pointingDirection.x > 0 && isLookingOnRight))
             {
                 ChangeLookingDirection();
             }
             yield return null;
+        }
+    }
+
+    public void CheckIfPlayerLooksAtEnemy()
+    {
+        if ((isEnemyOnTheRight && !isLookingOnRight) || (!isEnemyOnTheRight && isLookingOnRight))
+        {
+            ChangeLookingDirection();
         }
     }
 
@@ -204,16 +224,7 @@ public class Player : SingletonMonobehaviour<Player>
     void ChangeLookingDirection()
     {
         isLookingOnRight = !isLookingOnRight;
-        if (transform.rotation.y == 0)
-        {
-            transform.rotation = Quaternion.Euler(new Vector2(0, 180));
-            weaponTransform.localScale = new Vector2(1, -1);
-        }
-        else
-        {
-            transform.rotation = Quaternion.Euler(new Vector2(0, 0));
-            weaponTransform.localScale = new Vector2(1, 1);
-        }
+        transform.localScale = new Vector2(transform.localScale.x == 1 ? -1 : 1, 1);
     }
 
     void Shoot()
@@ -224,7 +235,18 @@ public class Player : SingletonMonobehaviour<Player>
         }
         
         weapon.Shoot((Vector2)weaponShootingTransform.position, shootingDirection);
+        if (weapon.type == 1)
+        {
+            meleeWeaponAnimator.Play("Swing");
+            meleeWeaponCollider.enabled = true;
+
+            Invoke("DisableMeleeWeaponCollider", weapon.timeColliderEnabled);
+        }
         ChangeMana(weapon.manaOnShoot);
+    }
+    void DisableMeleeWeaponCollider()
+    {
+        meleeWeaponCollider.enabled = false;
     }
 
 

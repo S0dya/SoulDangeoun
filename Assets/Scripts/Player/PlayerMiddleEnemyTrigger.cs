@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSmallEnemyTriggerAttract : MonoBehaviour
+public class PlayerMiddleEnemyTrigger : MonoBehaviour
 {
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("SmallEnemy"))
+        if (collision.gameObject.CompareTag("MiddleDistanceEnemy"))
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             enemy.StartFollowing();
@@ -15,7 +15,7 @@ public class PlayerSmallEnemyTriggerAttract : MonoBehaviour
     }
     void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("SmallEnemy"))
+        if (collision.gameObject.CompareTag("MiddleDistanceEnemy"))
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             enemy.StopFollowing();

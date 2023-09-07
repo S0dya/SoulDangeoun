@@ -19,11 +19,7 @@ public class Enemy : MonoBehaviour
 
 
     Transform playerTransform;
-
     Vector2 target;
-
-    Coroutine followingCor;
-    Coroutine pickRandomTargetPosCor;
     Coroutine shootingCor;
 
     bool isLookingOnRight;
@@ -42,7 +38,7 @@ public class Enemy : MonoBehaviour
         agent.updateRotation = false;
         agent.updateUpAxis = false;
 
-        pickRandomTargetPosCor = StartCoroutine(PickRandomTargetPosCor());
+        StartCoroutine(PickRandomTargetPosCor());
     }
 
     void FixedUpdate()
@@ -67,18 +63,14 @@ public class Enemy : MonoBehaviour
     public void StartFollowing()
     {
         seesPlayer = true;
-        if (followingCor != null) StopCoroutine(pickRandomTargetPosCor);
 
-        followingCor = StartCoroutine(FollowingCor());
         shootingCor = StartCoroutine(ShootingCor());
     }
     public void StopFollowing()
     {
-        if (followingCor !=  null) StopCoroutine(followingCor);
-        if (shootingCor != null) StopCoroutine(shootingCor);
-
-        pickRandomTargetPosCor = StartCoroutine(PickRandomTargetPosCor());
         seesPlayer = false;
+
+        StopCoroutine(shootingCor);
     }
 
     IEnumerator PickRandomTargetPosCor()
@@ -90,14 +82,6 @@ public class Enemy : MonoBehaviour
             target = new Vector2(Random.Range(randomX + distanceRandomTargetPick, randomX - distanceRandomTargetPick), 
                 Random.Range(randomY + distanceRandomTargetPick, randomY - distanceRandomTargetPick));
             yield return new WaitForSeconds(Random.Range(minTimeRandomTargetPick, maxTimeRandomTargetPick));
-        }
-    }
-    IEnumerator FollowingCor()
-    {
-        while (true)
-        {
-            target = playerTransform.position;
-            yield return null;
         }
     }
     IEnumerator ShootingCor()

@@ -92,7 +92,6 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
         }
 
         GenerateCorridors(createdRoomsPositionsList);
-        DrawWallsForLevels();
 
         Invoke("NavMeshBake", 0.1f);
     }
@@ -191,7 +190,12 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
         }
     }
 
-
+    void NavMeshBake()
+    {
+        surface.BuildNavMeshAsync();
+        DrawWallsForLevels();
+    }
+    
     void DrawWallsForLevels()
     {
         foreach (Room room in createdRoomsList)
@@ -199,12 +203,6 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
             room.DrawWalls(false);
         }
     }
-
-    void NavMeshBake()
-    {
-        surface.BuildNavMeshAsync();
-    }
-
 
     //tilemap
     void DrawCorridorLeft(Room curRoom, Room prevRoom, Vector2Int curPos)

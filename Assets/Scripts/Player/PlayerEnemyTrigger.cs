@@ -46,6 +46,7 @@ public class PlayerEnemyTrigger : SingletonMonobehaviour<PlayerEnemyTrigger>
                 if (peakNearestCor != null) StopCoroutine(peakNearestCor);
                 if (lookAtNearestEnemyCor != null) StopCoroutine(lookAtNearestEnemyCor);
 
+                player.pointingDirection = player.shootingDirection;
                 CinemachineCamera.I.ChangeCameraFollow(playerTransform);
             }
         }
@@ -57,7 +58,7 @@ public class PlayerEnemyTrigger : SingletonMonobehaviour<PlayerEnemyTrigger>
         {
             CheckForNearestEnemy();
 
-            yield return null;
+            yield return new WaitForSeconds(0.5f);
         }
     }
 
@@ -77,12 +78,8 @@ public class PlayerEnemyTrigger : SingletonMonobehaviour<PlayerEnemyTrigger>
                 {
                     shortestDistance = distanceToEnemy;
                     nearest = enemyTransform;
+                    player.CheckIfPlayerLooksAtEnemy();
                 }
-                Debug.DrawLine(playerTransform.position, enemyTransform.position, Color.green); // For visualization purposes
-            }
-            else
-            {
-                Debug.DrawLine(playerTransform.position, enemyTransform.position, Color.red); // For visualization purposes
             }
         }
         

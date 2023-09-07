@@ -19,6 +19,9 @@ TagManager:
   - CoridorsParent
   - ChestParent
   - Map
+  - CloseDistanceEnemy
+  - MiddleDistanceEnemy
+  - FarDistanceEnemy
   layers:
   - Default
   - TransparentFX

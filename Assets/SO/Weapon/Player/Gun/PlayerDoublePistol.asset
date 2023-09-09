@@ -10,14 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 72ef9e243f646ba4f98fe7bd6f28f225, type: 3}
-  m_Name: PlayerPistol
+  m_Name: PlayerDoublePistol
   m_EditorClassIdentifier: 
   <itemCode>k__BackingField: 0
   <Name>k__BackingField: pistol
   <ItemImage>k__BackingField: {fileID: 21300000, guid: 5214755098e7b7048a9fede45d6e770c, type: 3}
-  bulletPrefab: {fileID: 5396898046633677643, guid: 52efc0596f0059b41919623ba87e7cf8, type: 3}
-  speed: 20
-  reloadingTimeMin: 0.007
-  reloadingTimeMax: 1
+  type: 0
   manaOnShoot: 1
   speedOfMovementMultiplier: 0
+  bulletPrefab: {fileID: 4597922109233015504, guid: f6c59b08e2eddd041917455d61ff629b, type: 3}
+  speed: 20
+  amountToShoot: 2
+  shootingSpread: 0
+  recoil: 0
+  delayOfShooting: 0.25
+  reloadingTimeMin: 0.7
+  reloadingTimeMax: 1
+  destroyingDelay: 10
+  damage: 0
+  meleeImpact: 0
+  colliderOffset: {x: 0, y: 0}
+  colliderSize: {x: 0, y: 0}
+  timeColliderEnabled: 0

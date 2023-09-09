@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] LayerMask enemyLayer;
     [SerializeField] float damage;
+    [SerializeField] float bulletImpact;
 
     void OnTriggerEnter2D(Collider2D collision)
     {
@@ -21,7 +22,9 @@ public class Bullet : MonoBehaviour
         }
         else if (enemyLayer == (enemyLayer | (1 << collision.gameObject.layer)))
         {
-            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+            GameObject enemyObj = collision.gameObject;
+            Enemy enemy = enemyObj.GetComponent<Enemy>();
+            enemy.DamageImpact((Vector2)(enemyObj.transform.position - transform.position), bulletImpact);
             enemy.ChangeHP(damage);
             Destroy(gameObject);
         }

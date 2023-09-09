@@ -20,11 +20,12 @@ public class PlayerEnemyTrigger : SingletonMonobehaviour<PlayerEnemyTrigger>
         base.Awake();
 
         playerTransform = player.transform;
+        nearest = playerTransform;
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (enemyLayer == (enemyLayer | (1 << collision.gameObject.layer)))
+        if (enemyLayer == (enemyLayer | (1 << collision.gameObject.layer)) && !inEnemiesTransforms.Contains(collision.transform))
         {
             inEnemiesTransforms.Add(collision.transform);
             if (inEnemiesTransforms.Count == 1)
@@ -37,7 +38,7 @@ public class PlayerEnemyTrigger : SingletonMonobehaviour<PlayerEnemyTrigger>
     }
     void OnTriggerExit2D(Collider2D collision)
     {
-        if (enemyLayer == (enemyLayer | (1 << collision.gameObject.layer)))
+        if (enemyLayer == (enemyLayer | (1 << collision.gameObject.layer)) && inEnemiesTransforms.Contains(collision.transform))
         {
             inEnemiesTransforms.Remove(collision.transform);
             if (inEnemiesTransforms.Count == 0 && peakNearestCor != null)
@@ -65,15 +66,21 @@ public class PlayerEnemyTrigger : SingletonMonobehaviour<PlayerEnemyTrigger>
     public void CheckForNearestEnemy()
     {
         float shortestDistance = Mathf.Infinity;
+        int seenEnemies = 0;
 
         foreach (Transform enemyTransform in inEnemiesTransforms)
         {
-            Vector3 directionToEnemy = enemyTransform.position - playerTransform.position;
+            if (enemyTransform == null) continue;
+            Vector2 directionToEnemy = enemyTransform.position - playerTransform.position;
+            float distanceToEnemy = directionToEnemy.magnitude;
+            Vector2 raycastStart = (Vector2)playerTransform.position + directionToEnemy.normalized * 0.5f;
 
-            if (!Physics.Raycast(playerTransform.position, directionToEnemy, directionToEnemy.magnitude, obstacleLayer))
+            RaycastHit2D hit = Physics2D.Raycast(raycastStart, directionToEnemy.normalized, distanceToEnemy, obstacleLayer);
+
+            if (hit.collider == null)
             {
-                float distanceToEnemy = Vector3.Distance(transform.position, enemyTransform.position);
-
+                seenEnemies++;
+                
                 if (distanceToEnemy < shortestDistance)
                 {
                     shortestDistance = distanceToEnemy;
@@ -81,17 +88,31 @@ public class PlayerEnemyTrigger : SingletonMonobehaviour<PlayerEnemyTrigger>
                     player.CheckIfPlayerLooksAtEnemy();
                 }
             }
+
         }
-        
-        CinemachineCamera.I.ChangeCameraFollow(nearest);
+
+        if (seenEnemies == 0)
+        {
+            player.seesEnemy = false;
+            CinemachineCamera.I.ChangeCameraFollow(playerTransform);
+        }
+        else
+        {
+            player.seesEnemy = true;
+            CinemachineCamera.I.ChangeCameraFollow(nearest);
+        }
     }
 
     IEnumerator LookAtNearestEnemyCor()
     {
         while (true)
         {
-            player.shootingDirection = (nearest.position - playerTransform.position).normalized;
-            player.isEnemyOnTheRight = nearest.position.x < playerTransform.position.x;
+            if (nearest != null)
+            {
+                player.shootingDirection = (nearest.position - playerTransform.position).normalized;
+                player.isEnemyOnTheRight = nearest.position.x < playerTransform.position.x;
+            }
+            
             yield return null;
         }
 

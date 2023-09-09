@@ -9,22 +9,19 @@ public class Player : SingletonMonobehaviour<Player>
     [SerializeField] FloatingJoystick fJoystick;
     [SerializeField] Rigidbody2D rb;
 
-    [SerializeField] SO_Weapon weapon;
-    [SerializeField] Transform weaponTransform; 
+    [SerializeField] SO_Weapon[] weapons = new SO_Weapon[2];
+    [SerializeField] Transform weaponTransform;
     [SerializeField] Transform weaponShootingTransform;
-    //melee
+    [Header("Melee")]
     [SerializeField] Animator meleeWeaponAnimator;
     [SerializeField] BoxCollider2D meleeWeaponCollider;
     [SerializeField] MeleeWeaponTrigger meleeWeaponTrigger;
 
-    [SerializeField] SO_Weapon[] weapons = new SO_Weapon[2];
     [SerializeField] SpriteRenderer weaponSprite;
-
-
+    [Header("Power")]
     [SerializeField] SO_Power power;
     [SerializeField] Image activityOfPowerButton;
-
-    //UI
+    [Header("UI")]
     [SerializeField] Image[] bars;
     [SerializeField] TextMeshProUGUI[] barsText;
     [SerializeField] TextMeshProUGUI goldText;
@@ -48,7 +45,7 @@ public class Player : SingletonMonobehaviour<Player>
     float[] curStats = new float[3] { 1, 1, 1};
     float curMana = 1;
     int curGold;
-    int curWeaponIndex;
+    int weaponI = 0;
 
     protected override void Awake()
     {
@@ -120,22 +117,23 @@ public class Player : SingletonMonobehaviour<Player>
 
     public void OnChangeWeaponButton()
     {
-        int i = curWeaponIndex + 1;
+        int i = weaponI + 1;
         int newI = (i == weapons.Length ? 0 : i);
         if (weapons[newI] != null)
         {
-            weapons[curWeaponIndex].UnSet();
-            curWeaponIndex = newI;
-            weapons[curWeaponIndex].Set();
+            weapons[weaponI].UnSet();
+            weaponI = newI;
+            weapons[weaponI].Set();
 
             weaponSprite.sprite = weapons[newI].ItemImage;
-            weapon = weapons[newI];
+            weapons[weaponI] = weapons[newI];
 
-            if (weapon.type == 1)
+            if (weapons[weaponI].type == 1)
             {
-                meleeWeaponTrigger.damage = weapon.damage;
-                meleeWeaponCollider.size = weapon.colliderSize;
-                meleeWeaponCollider.offset = weapon.colliderOffset;
+                meleeWeaponTrigger.damage = weapons[weaponI].damage;
+                meleeWeaponTrigger.meleeImpact = weapons[weaponI].meleeImpact;
+                meleeWeaponCollider.size = weapons[weaponI].colliderSize;
+                meleeWeaponCollider.offset = weapons[weaponI].colliderOffset;
             }
         }
     }
@@ -186,7 +184,7 @@ public class Player : SingletonMonobehaviour<Player>
     IEnumerator Reloading()
     {
         canShoot = false;
-        yield return new WaitForSeconds(Random.Range(weapon.reloadingTimeMin, weapon.reloadingTimeMax));
+        yield return new WaitForSeconds(Random.Range(weapons[weaponI].reloadingTimeMin, weapons[weaponI].reloadingTimeMax));
         canShoot = true;
     }
 
@@ -234,19 +232,13 @@ public class Player : SingletonMonobehaviour<Player>
             shootingDirection = pointingDirection;
         }
         
-        weapon.Shoot((Vector2)weaponShootingTransform.position, shootingDirection);
-        if (weapon.type == 1)
+        weapons[weaponI].Shoot((Vector2)weaponShootingTransform.position, shootingDirection);
+        if (weapons[weaponI].type == 1)
         {
             meleeWeaponAnimator.Play("Swing");
-            meleeWeaponCollider.enabled = true;
 
-            Invoke("DisableMeleeWeaponCollider", weapon.timeColliderEnabled);
         }
-        ChangeMana(weapon.manaOnShoot);
-    }
-    void DisableMeleeWeaponCollider()
-    {
-        meleeWeaponCollider.enabled = false;
+        ChangeMana(weapons[weaponI].manaOnShoot);
     }
 
 

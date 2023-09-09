@@ -15,9 +15,20 @@ MonoBehaviour:
   <itemCode>k__BackingField: 0
   <Name>k__BackingField: Riffle
   <ItemImage>k__BackingField: {fileID: 21300000, guid: 161aaac10d7877149a68e7ba57842374, type: 3}
-  bulletPrefab: {fileID: 5396898046633677643, guid: 52efc0596f0059b41919623ba87e7cf8, type: 3}
-  speed: 40
-  reloadingTimeMin: 0.25
-  reloadingTimeMax: 0.3
+  type: 0
   manaOnShoot: 5
   speedOfMovementMultiplier: 0.5
+  bulletPrefab: {fileID: 5396898046633677643, guid: 52efc0596f0059b41919623ba87e7cf8, type: 3}
+  speed: 40
+  amountToShoot: 3
+  shootingSpread: 0.1
+  recoil: 0
+  delayOfShooting: 0.1
+  reloadingTimeMin: 0.15
+  reloadingTimeMax: 0.3
+  destroyingDelay: 10
+  damage: 0
+  meleeImpact: 0
+  colliderOffset: {x: 0, y: 0}
+  colliderSize: {x: 0, y: 0}
+  timeColliderEnabled: 0

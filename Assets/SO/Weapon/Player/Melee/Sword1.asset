@@ -16,13 +16,18 @@ MonoBehaviour:
   <Name>k__BackingField: Sword1
   <ItemImage>k__BackingField: {fileID: 21300000, guid: 085bf6f5a1d3ceb4d886529cb4babe80, type: 3}
   bulletPrefab: {fileID: 0}
-  speed: 0
   type: 1
+  speed: 0
+  amountToShoot: 0
+  shootingSpread: 0
+  recoil: 0
+  delayOfShooting: 0
   reloadingTimeMin: 1
   reloadingTimeMax: 1
   damage: 3
+  meleeImpact: 5
   colliderOffset: {x: 0, y: 0.5}
   colliderSize: {x: 0.2, y: 1.1}
   timeColliderEnabled: 0.2
-  manaOnShoot: 1
+  manaOnShoot: 0
   speedOfMovementMultiplier: 0

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5396898046633677644}
   m_Layer: 0
   m_Name: PistolBullet
-  m_TagString: Untagged
+  m_TagString: PlayerBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -50,7 +50,8 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 512
-  damage: 10
+  damage: 5
+  bulletImpact: 2
 --- !u!50 &5396898046633677646
 Rigidbody2D:
   serializedVersion: 4

@@ -187,6 +187,7 @@ MonoBehaviour:
   topWallTiles:
   - {fileID: 11400000, guid: 5721869ac9fc16043b0b6a00ee9b3403, type: 2}
   levelUIPrefab: {fileID: 3211748931077700557, guid: 2eeb18c8239d8c3438dc9ce284cd3a02, type: 3}
+  createdLevelsUIList: []
 --- !u!1 &652420254
 GameObject:
   m_ObjectHideFlags: 0
@@ -309,6 +310,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d868c3a8d0066554f835e6208150cafc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemyPrefab: {fileID: 4225549585042992110, guid: 6cb0559eaabe6e942af3f0b26123a4c5, type: 3}
+  closeEnemies:
+  - {fileID: 4225549585042992110, guid: 6cb0559eaabe6e942af3f0b26123a4c5, type: 3}
+  middleEnemies:
+  - {fileID: 4225549585042992110, guid: aeeb021b48d92e1429855049b13fa15f, type: 3}
+  farEnemies:
+  - {fileID: 4225549585042992110, guid: d4f6030988a57954e88aead6b2e032ea, type: 3}
   chestPrefab: {fileID: 8387544120972304950, guid: 6874628e7f7bac440a33e6c18df3a089, type: 3}
   currentEnemiesAmount: 0

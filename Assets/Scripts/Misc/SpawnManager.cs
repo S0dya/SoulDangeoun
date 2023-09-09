@@ -5,7 +5,11 @@ using UnityEngine.Tilemaps;
 
 public class SpawnManager : SingletonMonobehaviour<SpawnManager>
 {
-    [SerializeField] GameObject EnemyPrefab;
+    GameObject[][] enemyPrefabs;
+    [SerializeField] GameObject[] closeEnemies;
+    [SerializeField] GameObject[] middleEnemies;
+    [SerializeField] GameObject[] farEnemies;
+    
     [SerializeField] GameObject chestPrefab;
 
     Transform enemiesParent;
@@ -28,6 +32,10 @@ public class SpawnManager : SingletonMonobehaviour<SpawnManager>
     {
         base.Awake();
 
+        enemyPrefabs = new GameObject[3][];
+        enemyPrefabs[0] = closeEnemies;
+        enemyPrefabs[1] = middleEnemies;
+        enemyPrefabs[2] = farEnemies;
 
         enemiesParent = GameObject.FindGameObjectWithTag("EnemiesParent").transform;
         chestParent = GameObject.FindGameObjectWithTag("ChestParent").transform;
@@ -51,7 +59,10 @@ public class SpawnManager : SingletonMonobehaviour<SpawnManager>
         for (int i = 0; i < amount; i++) 
         {
             Vector3Int randomPos = GetRandomPositionWithoutWall();
-            Instantiate(EnemyPrefab, randomPos, Quaternion.identity, enemiesParent);
+            int type = Random.Range(0, enemyPrefabs.Length);
+            int index = Random.Range(0, enemyPrefabs[type].Length);
+
+            Instantiate(enemyPrefabs[type][index], randomPos, Quaternion.identity, enemiesParent);
         }
     }
 

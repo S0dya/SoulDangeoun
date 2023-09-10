@@ -8,7 +8,10 @@ using NavMeshPlus.Components;
 
 public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationManager>
 {
-    NavMeshSurface surface;
+    [SerializeField] Player player;
+    [SerializeField] Transform deadBodyParent;
+
+    [SerializeField] NavMeshSurface surface;
 
     [Header("Levels")]
     //Realm0.0
@@ -25,12 +28,11 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
 
 
     //Realm1.0
-
     [Header("Tiles")]
     [SerializeField] GameObject floorTilemapPrefab;
     [SerializeField] GameObject wallsTilemapPrefab;
-    Transform levelsParentTransform;
-    Transform coridorsParentTransform;
+    [SerializeField] Transform levelsParentTransform;
+    [SerializeField] Transform coridorsParentTransform;
     Tilemap floorTilemap;
     Tilemap wallsTilemap;
     [SerializeField] TileBase[] floorTiles;
@@ -40,8 +42,9 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
     [SerializeField] TileBase[] topWallTiles;
 
     //UI
+    [Header("UI")]
     [SerializeField] GameObject levelUIPrefab;
-    Transform mapParent;
+    [SerializeField] Transform mapParent;
 
     //local
     List<Room> createdRoomsList = new List<Room>();
@@ -56,10 +59,6 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
     {
         base.Awake();
 
-        surface = GameObject.FindGameObjectWithTag("NavMesh").GetComponent<NavMeshSurface>();
-        levelsParentTransform = GameObject.FindGameObjectWithTag("LevelsParent").transform;
-        coridorsParentTransform = GameObject.FindGameObjectWithTag("CoridorsParent").transform;
-        mapParent = GameObject.FindGameObjectWithTag("Map").transform;
     }
 
     void Start()
@@ -79,8 +78,16 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
         }
     }
 
+    public void NextLevel()
+    {
+        ClearGame();
+
+        GenerateLevel();
+    }
+
     public void GenerateLevel()
     {
+        LoadingSceneManager.I.OpenLoadingScreen();
         Clear();
         SetCurRealm();
         int amountOfRooms = Random.Range(5, 5 + Settings.levelAmount);
@@ -92,6 +99,7 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
         createdRoomsList.Add(strtRoom);
 
         bool isHorizontalDirection = (Random.Range(0, 2) == 0);
+        LoadingSceneManager.I.SetFillAmount(0.1f);
         for (int i = 0; i < amountOfRooms; i++)
         {
             Vector2Int prevRoomPos = curRoomPos;
@@ -108,8 +116,10 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
             createdRoomsList.Add(room);
         }
 
+        LoadingSceneManager.I.SetFillAmount(0.4f);
         GenerateCorridors(createdRoomsPositionsList);
 
+        LoadingSceneManager.I.SetFillAmount(0.6f);
         Invoke("NavMeshBake", 0.1f);
         Invoke("StopLoadingLevel", 0.3f);
     }
@@ -210,6 +220,7 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
 
     void NavMeshBake()
     {
+        LoadingSceneManager.I.SetFillAmount(0.8f);
         surface.BuildNavMeshAsync();
         DrawWallsForLevels();
     }
@@ -220,11 +231,12 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
         {
             room.DrawWalls(false);
         }
+        LoadingSceneManager.I.SetFillAmount(1);
     }
 
     void StopLoadingLevel()
     {
-        GameMenu.I.ToggleLoadingScreen(false);
+        LoadingSceneManager.I.CloseLoadingScreen();
     }
 
     //tilemap
@@ -359,5 +371,20 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
                 break;
             default: break;
         }
+    }
+
+
+
+
+
+    public void ClearGame()
+    {
+        foreach (Transform deadBody in deadBodyParent)
+        {
+            Destroy(deadBody.gameObject);
+        }
+
+        player.Clear();
+
     }
 }

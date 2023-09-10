@@ -4,33 +4,29 @@ using UnityEngine;
 
 public class GameManager : SingletonMonobehaviour<GameManager>
 {
-    Player player; 
-    Transform deadBodyParent;
 
     protected override void Awake()
     {
         base.Awake();
 
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        deadBodyParent = GameObject.FindGameObjectWithTag("DeadBodyParent").transform;
-
     }
 
-    public void ClearGame()
+    
+
+    //UI
+    public void Open(CanvasGroup CG, float duration)
     {
-        foreach (Transform deadBody in deadBodyParent)
-        {
-            Destroy(deadBody.gameObject);
-        }
-
-        player.Clear();
-
+        CG.blocksRaycasts = true;
+        LTDescr tween = LeanTween.alphaCanvas(CG, 1, duration).setEase(LeanTweenType.easeInOutQuad);
+        tween.setUseEstimatedTime(true);
     }
-
-    public void NextLevel()
+    public void Close(CanvasGroup CG, float duration)
     {
-        ClearGame();
-
-        LevelGenerationManager.I.GenerateLevel();
+        LTDescr tween = LeanTween.alphaCanvas(CG, 0, duration).setEase(LeanTweenType.easeInOutQuad).setOnComplete(() => CloseComletely(CG));
+        tween.setUseEstimatedTime(true);
+    }
+    void CloseComletely(CanvasGroup CG)
+    {
+        CG.blocksRaycasts = false;
     }
 }

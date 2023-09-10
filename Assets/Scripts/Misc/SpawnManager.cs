@@ -12,8 +12,8 @@ public class SpawnManager : SingletonMonobehaviour<SpawnManager>
     
     [SerializeField] GameObject chestPrefab;
 
-    Transform enemiesParent;
-    Transform chestParent;
+    [SerializeField] Transform enemiesParent;
+    [SerializeField] Transform chestParent;
 
     int startX;
     int endX;
@@ -36,9 +36,6 @@ public class SpawnManager : SingletonMonobehaviour<SpawnManager>
         enemyPrefabs[0] = closeEnemies;
         enemyPrefabs[1] = middleEnemies;
         enemyPrefabs[2] = farEnemies;
-
-        enemiesParent = GameObject.FindGameObjectWithTag("EnemiesParent").transform;
-        chestParent = GameObject.FindGameObjectWithTag("ChestParent").transform;
     }
 
     public void SetPos(Tilemap walls, Room room, int sX, int eX, int sY, int eY)

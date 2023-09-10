@@ -6,10 +6,8 @@ public class Portal : MonoBehaviour
 {
     public void UsePortal()
     {
-        GameMenu.I.ToggleLoadingScreen(true);
-
         Settings.NextLevel();
-        GameManager.I.NextLevel();
+        LevelGenerationManager.I.NextLevel();
 
         Destroy(gameObject);
     }

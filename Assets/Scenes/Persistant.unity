@@ -167,13 +167,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b2978c9d55b70a44936055974f1884c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startRoom: {fileID: 616457233749272306, guid: fc3d9fbecd384bb4f9275530a76e9682, type: 3}
-  endRoom: {fileID: 616457233749272306, guid: 21018e86f07820e49aa21335e1251587, type: 3}
-  enemiesRooms:
+  startRoomForest: {fileID: 616457233749272306, guid: fc3d9fbecd384bb4f9275530a76e9682, type: 3}
+  endRoomForest: {fileID: 616457233749272306, guid: 21018e86f07820e49aa21335e1251587, type: 3}
+  enemiesRoomsForest:
   - {fileID: 616457233749272306, guid: 32776ceee2342554d9abf7877f2d1eda, type: 3}
   - {fileID: 616457233749272306, guid: 04cdd95a360199f4aa944eb1f29b27e3, type: 3}
-  uniqueRooms:
+  uniqueRoomsForest: []
+  startRoomDungeon: {fileID: 616457233749272306, guid: fc3d9fbecd384bb4f9275530a76e9682, type: 3}
+  endRoomDungeon: {fileID: 616457233749272306, guid: 21018e86f07820e49aa21335e1251587, type: 3}
+  enemiesRoomsDungeon:
   - {fileID: 616457233749272306, guid: 32776ceee2342554d9abf7877f2d1eda, type: 3}
+  - {fileID: 616457233749272306, guid: 04cdd95a360199f4aa944eb1f29b27e3, type: 3}
+  uniqueRoomsDungeon: []
   floorTilemapPrefab: {fileID: 138419215114487352, guid: e1835ee43f67bdb4a9cfd77b8ddc1f36, type: 3}
   wallsTilemapPrefab: {fileID: 1213168284437043603, guid: 82becce3266b7b94ba4f3e8ef8cc9da0, type: 3}
   floorTiles:

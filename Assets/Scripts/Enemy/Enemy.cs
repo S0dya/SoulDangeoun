@@ -44,6 +44,7 @@ public class Enemy : MonoBehaviour
     bool isLookingOnRight;
     [HideInInspector] public bool seesPlayer;
     bool isReloading;
+    bool isDying;
 
     float curHP = 1;
     float defaultSpeed;
@@ -237,6 +238,8 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
+        if (isDying) return;
+        isDying = true;
         StopAllCoroutines();
 
         if (PlayerEnemyTrigger.I.inEnemiesTransforms.Contains(this.transform))

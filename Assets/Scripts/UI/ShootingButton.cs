@@ -9,7 +9,14 @@ public class ShootingButton : MonoBehaviour, IPointerDownHandler, IPointerUpHand
 
     public virtual void OnPointerDown(PointerEventData eventData)
     {
-        player.StartShooting();
+        if (player.onGUI)
+        {
+            PlayerGUITrigger.I.UseGUIObject();
+        }
+        else
+        {
+            player.StartShooting();
+        }
     }
     public virtual void OnPointerUp(PointerEventData eventData)
     {

@@ -88,7 +88,6 @@ public class PlayerEnemyTrigger : SingletonMonobehaviour<PlayerEnemyTrigger>
                     player.CheckIfPlayerLooksAtEnemy();
                 }
             }
-
         }
 
         if (seenEnemies == 0)

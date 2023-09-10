@@ -46,11 +46,11 @@ public class SpawnManager : SingletonMonobehaviour<SpawnManager>
         curWallTilemap = walls;
         curRoom = room;
 
-        curSpawnEnemiesTimes = 0;
+        curSpawnEnemiesTimes = 1;
         startX = sX; endX = eX; startY = sY; endY = eY;
 
-        spawnEnemiesTimes = Random.Range(0, 5);
-        currentEnemiesAmount = Settings.amountOfEnemiesOnLevel;
+        spawnEnemiesTimes = Random.Range(0, 3);
+        currentEnemiesAmount = Random.Range(Settings.amountOfEnemiesOnLevel/2, Settings.amountOfEnemiesOnLevel);
         SpawnEnemies(currentEnemiesAmount);
     }
 
@@ -68,7 +68,7 @@ public class SpawnManager : SingletonMonobehaviour<SpawnManager>
 
     public void SpawnMoreChecck()
     {
-        if (curSpawnEnemiesTimes == spawnEnemiesTimes)
+        if (curSpawnEnemiesTimes >= spawnEnemiesTimes)
         {
             Vector3Int randomPos = GetRandomPositionWithoutWall();
             Instantiate(chestPrefab, randomPos, Quaternion.identity, chestParent);
@@ -78,7 +78,7 @@ public class SpawnManager : SingletonMonobehaviour<SpawnManager>
         else
         {
             curSpawnEnemiesTimes++;
-            currentEnemiesAmount = Settings.amountOfEnemiesOnLevel/curSpawnEnemiesTimes;
+            currentEnemiesAmount = Random.Range(1, Settings.amountOfEnemiesOnLevel / curSpawnEnemiesTimes);
             SpawnEnemies(currentEnemiesAmount);
         }
     }

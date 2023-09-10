@@ -47,6 +47,9 @@ public class Player : SingletonMonobehaviour<Player>
     int curGold;
     int weaponI = 0;
 
+    //GUI
+    [HideInInspector] public bool onGUI;
+
     protected override void Awake()
     {
         base.Awake();
@@ -293,7 +296,10 @@ public class Player : SingletonMonobehaviour<Player>
 
 
 
-
+    public void Clear()
+    {
+        transform.position = Vector3.zero;
+    }
 
     void Die()
     {

@@ -10,11 +10,23 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
 {
     NavMeshSurface surface;
 
-    [SerializeField] GameObject startRoom;
-    [SerializeField] GameObject endRoom;
-    [SerializeField] GameObject[] enemiesRooms;
-    [SerializeField] GameObject[] uniqueRooms;
+    [Header("Levels")]
+    //Realm0.0
+    [SerializeField] GameObject startRoomForest;
+    [SerializeField] GameObject endRoomForest;
+    [SerializeField] GameObject[] enemiesRoomsForest;
+    [SerializeField] GameObject[] uniqueRoomsForest;
 
+    //Realm0.1
+    [SerializeField] GameObject startRoomDungeon;
+    [SerializeField] GameObject endRoomDungeon;
+    [SerializeField] GameObject[] enemiesRoomsDungeon;
+    [SerializeField] GameObject[] uniqueRoomsDungeon;
+
+
+    //Realm1.0
+
+    [Header("Tiles")]
     [SerializeField] GameObject floorTilemapPrefab;
     [SerializeField] GameObject wallsTilemapPrefab;
     Transform levelsParentTransform;
@@ -34,6 +46,11 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
     //local
     List<Room> createdRoomsList = new List<Room>();
     public List<LevelUI> createdLevelsUIList = new List<LevelUI>();
+
+    GameObject startRoom;
+    GameObject endRoom;
+    GameObject[] enemiesRooms;
+    GameObject[] uniqueRooms;
 
     protected override void Awake()
     {
@@ -65,10 +82,10 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
     public void GenerateLevel()
     {
         Clear();
+        SetCurRealm();
         int amountOfRooms = Random.Range(5, 5 + Settings.levelAmount);
         var curRoomPos = Vector2Int.zero;
         var createdRoomsPositionsList = new List<Vector2Int>() { curRoomPos };
-
 
         GameObject startRoomObj = CreateRoom(startRoom, curRoomPos);
         Room strtRoom = startRoomObj.GetComponent<Room>();
@@ -83,7 +100,7 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
             
             isHorizontalDirection = !isHorizontalDirection;
 
-            GameObject roomObj = CreateRoom(i+1 == amountOfRooms ? endRoom : 
+            GameObject roomObj = CreateRoom(i+1 == amountOfRooms ? endRoom :
                 enemiesRooms[Random.Range(0, enemiesRooms.Length)], curRoomPos);
             Room room = roomObj.GetComponent<Room>();
             FindNeighbours(createdRoomsPositionsList, curRoomPos, prevRoomPos, room);
@@ -94,6 +111,7 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
         GenerateCorridors(createdRoomsPositionsList);
 
         Invoke("NavMeshBake", 0.1f);
+        Invoke("StopLoadingLevel", 0.3f);
     }
 
 
@@ -204,6 +222,11 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
         }
     }
 
+    void StopLoadingLevel()
+    {
+        GameMenu.I.ToggleLoadingScreen(false);
+    }
+
     //tilemap
     void DrawCorridorLeft(Room curRoom, Room prevRoom, Vector2Int curPos)
     {
@@ -287,5 +310,54 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
 
         Destroy(GameObject.FindGameObjectWithTag("CoridorsFloor"));
         Destroy(GameObject.FindGameObjectWithTag("CoridorsWalls"));
+    }
+
+    void SetCurRealm()
+    {
+        Settings.curDungeonRealm = Random.Range(0, 
+            (Settings.curDungeonLevel == 0 ? 2 : 1));
+
+        switch (Settings.curDungeonLevel)
+        {
+            case 0:
+                switch (Settings.curDungeonRealm)
+                {
+                    case 0:
+                        startRoom = startRoomForest;
+                        endRoom = endRoomForest;
+                        enemiesRooms = enemiesRoomsForest;
+                        uniqueRooms = uniqueRoomsForest;
+                        break;
+                    case 1:
+                        startRoom = startRoomDungeon;
+                        endRoom = endRoomDungeon;
+                        enemiesRooms = enemiesRoomsDungeon;
+                        uniqueRooms = uniqueRoomsDungeon;
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case 1:
+                switch (Settings.curDungeonRealm)
+                {
+                    case 0:
+                        startRoom = startRoomForest;
+                        endRoom = endRoomForest;
+                        enemiesRooms = enemiesRoomsForest;
+                        uniqueRooms = uniqueRoomsForest;
+                        break;
+                    case 1:
+                        startRoom = startRoomDungeon;
+                        endRoom = endRoomDungeon;
+                        enemiesRooms = enemiesRoomsDungeon;
+                        uniqueRooms = uniqueRoomsDungeon;
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            default: break;
+        }
     }
 }

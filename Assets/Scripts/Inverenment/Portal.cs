@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class Portal : MonoBehaviour
 {
-    
-    void OnTriggerEnter2D(Collider2D collision)
+    public void UsePortal()
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
+        GameMenu.I.ToggleLoadingScreen(true);
 
-        }
+        Settings.NextLevel();
+        GameManager.I.NextLevel();
+
+        Destroy(gameObject);
     }
 }

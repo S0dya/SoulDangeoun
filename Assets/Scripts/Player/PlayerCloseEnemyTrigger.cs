@@ -37,6 +37,7 @@ public class PlayerCloseEnemyTrigger : MonoBehaviour
     {
         foreach (Enemy enemy in enemies)
         {
+            if (enemy == null) continue;
             Vector2 directionToEnemy = enemy.gameObject.transform.position - playerTransform.position;
             float distanceToEnemy = directionToEnemy.magnitude;
             Vector2 raycastStart = (Vector2)playerTransform.position + directionToEnemy.normalized * 0.5f;

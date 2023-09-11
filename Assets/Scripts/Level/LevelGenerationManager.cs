@@ -9,7 +9,6 @@ using NavMeshPlus.Components;
 public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationManager>
 {
     [SerializeField] Player player;
-    [SerializeField] Transform deadBodyParent;
 
     [SerializeField] NavMeshSurface surface;
 
@@ -78,13 +77,6 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
         }
     }
 
-    public void NextLevel()
-    {
-        ClearGame();
-
-        GenerateLevel();
-    }
-
     public void GenerateLevel()
     {
         LoadingSceneManager.I.OpenLoadingScreen();
@@ -109,6 +101,7 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
             isHorizontalDirection = !isHorizontalDirection;
 
             GameObject roomObj = CreateRoom(i+1 == amountOfRooms ? endRoom :
+                (Random.Range(0, 2) == 1) ? uniqueRooms[Random.Range(0, uniqueRooms.Length)] : 
                 enemiesRooms[Random.Range(0, enemiesRooms.Length)], curRoomPos);
             Room room = roomObj.GetComponent<Room>();
             FindNeighbours(createdRoomsPositionsList, curRoomPos, prevRoomPos, room);
@@ -313,17 +306,6 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
         }
     }
 
-    void Clear()
-    {
-        foreach (Room room in createdRoomsList) room.DestroyObject();
-        createdRoomsList = new List<Room>();
-        foreach (LevelUI level in createdLevelsUIList) level.DestroyObject();
-        createdLevelsUIList = new List<LevelUI>();
-
-        Destroy(GameObject.FindGameObjectWithTag("CoridorsFloor"));
-        Destroy(GameObject.FindGameObjectWithTag("CoridorsWalls"));
-    }
-
     void SetCurRealm()
     {
         Settings.curDungeonRealm = Random.Range(0, 
@@ -374,17 +356,16 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
     }
 
 
+    void Clear()
+    {   
+        SpawnManager.I.Clear();
+        foreach (Room room in createdRoomsList) room.DestroyObject();
+        createdRoomsList = new List<Room>();
+        foreach (LevelUI level in createdLevelsUIList) level.DestroyObject();
+        createdLevelsUIList = new List<LevelUI>();
 
-
-
-    public void ClearGame()
-    {
-        foreach (Transform deadBody in deadBodyParent)
-        {
-            Destroy(deadBody.gameObject);
-        }
-
+        Destroy(GameObject.FindGameObjectWithTag("CoridorsFloor"));
+        Destroy(GameObject.FindGameObjectWithTag("CoridorsWalls"));
         player.Clear();
-
     }
 }

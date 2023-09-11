@@ -7,7 +7,7 @@ public class Portal : MonoBehaviour
     public void UsePortal()
     {
         Settings.NextLevel();
-        LevelGenerationManager.I.NextLevel();
+        LevelGenerationManager.I.GenerateLevel();
 
         Destroy(gameObject);
     }

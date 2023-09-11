@@ -30,7 +30,8 @@ public class PlayerGUITrigger : SingletonMonobehaviour<PlayerGUITrigger>
         if (GUILayer == (GUILayer | (1 << collision.gameObject.layer)))
         {
             GUIObject GUIobj = collision.gameObject.GetComponent<GUIObject>();
-            GUIObjects.Add(GUIobj);
+            if (GUIobj.itemChest != null && GUIobj.itemChest.isOpened) return;
+                GUIObjects.Add(GUIobj);
             if (GUIObjects.Count == 1)
             {
                 Player.I.onGUI = true;

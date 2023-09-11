@@ -244,6 +244,21 @@ public class Player : SingletonMonobehaviour<Player>
         ChangeMana(weapons[weaponI].manaOnShoot);
     }
 
+    public void PickWeapon(SO_Weapon newWeapon)
+    {
+        for (int i = 0; i < weapons.Length; i++)
+        {
+            if (weapons[i] == null)
+            {
+                weapons[i] = newWeapon;
+                return;
+            }
+        }
+
+        SpawnManager.I.DropWeapon(weapons[weaponI]);
+        weapons[weaponI] = newWeapon;
+    }
+
 
 
     //UI

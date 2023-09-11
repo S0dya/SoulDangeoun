@@ -614,20 +614,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 85088073}
-  deadBodyParent: {fileID: 1142760250}
   surface: {fileID: 940550442}
   startRoomForest: {fileID: 616457233749272306, guid: fc3d9fbecd384bb4f9275530a76e9682, type: 3}
   endRoomForest: {fileID: 616457233749272306, guid: 21018e86f07820e49aa21335e1251587, type: 3}
   enemiesRoomsForest:
   - {fileID: 616457233749272306, guid: 32776ceee2342554d9abf7877f2d1eda, type: 3}
   - {fileID: 616457233749272306, guid: 04cdd95a360199f4aa944eb1f29b27e3, type: 3}
-  uniqueRoomsForest: []
+  uniqueRoomsForest:
+  - {fileID: 616457233749272306, guid: f3c3546ea9ad34f49b462cf302fd2a55, type: 3}
   startRoomDungeon: {fileID: 616457233749272306, guid: fc3d9fbecd384bb4f9275530a76e9682, type: 3}
   endRoomDungeon: {fileID: 616457233749272306, guid: 21018e86f07820e49aa21335e1251587, type: 3}
   enemiesRoomsDungeon:
   - {fileID: 616457233749272306, guid: 32776ceee2342554d9abf7877f2d1eda, type: 3}
   - {fileID: 616457233749272306, guid: 04cdd95a360199f4aa944eb1f29b27e3, type: 3}
-  uniqueRoomsDungeon: []
+  uniqueRoomsDungeon:
+  - {fileID: 616457233749272306, guid: f3c3546ea9ad34f49b462cf302fd2a55, type: 3}
   floorTilemapPrefab: {fileID: 138419215114487352, guid: e1835ee43f67bdb4a9cfd77b8ddc1f36, type: 3}
   wallsTilemapPrefab: {fileID: 1213168284437043603, guid: 82becce3266b7b94ba4f3e8ef8cc9da0, type: 3}
   levelsParentTransform: {fileID: 860724539}
@@ -747,7 +748,6 @@ Transform:
   - {fileID: 2058804920}
   - {fileID: 763709945}
   - {fileID: 2007512679}
-  - {fileID: 1586974140}
   - {fileID: 1901927296}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -3295,6 +3295,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1361331451}
   m_CullTransparentMesh: 1
+--- !u!1 &1482954421
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1482954422}
+  m_Layer: 0
+  m_Name: Pickable
+  m_TagString: PickableParent
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1482954422
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1482954421}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1854096128}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1488228790
 GameObject:
   m_ObjectHideFlags: 0
@@ -3716,74 +3747,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1565840268}
   m_CullTransparentMesh: 1
---- !u!1 &1586974139
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1586974140}
-  - component: {fileID: 1586974142}
-  - component: {fileID: 1586974141}
-  m_Layer: 0
-  m_Name: EventSystem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1586974140
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1586974139}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 306332496}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1586974141
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1586974139}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SendPointerHoverToParent: 1
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
---- !u!114 &1586974142
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1586974139}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
-  m_sendNavigationEvents: 1
-  m_DragThreshold: 10
 --- !u!1 &1633652814
 GameObject:
   m_ObjectHideFlags: 0
@@ -4220,6 +4183,7 @@ Transform:
   m_Children:
   - {fileID: 1905748269}
   - {fileID: 642813624}
+  - {fileID: 1482954422}
   m_Father: {fileID: 1778180034}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4334,7 +4298,7 @@ RectTransform:
   - {fileID: 228069980}
   - {fileID: 942109576}
   m_Father: {fileID: 306332496}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4974,9 +4938,13 @@ MonoBehaviour:
   - {fileID: 4225549585042992110, guid: aeeb021b48d92e1429855049b13fa15f, type: 3}
   farEnemies:
   - {fileID: 4225549585042992110, guid: d4f6030988a57954e88aead6b2e032ea, type: 3}
-  chestPrefab: {fileID: 8387544120972304950, guid: 6874628e7f7bac440a33e6c18df3a089, type: 3}
   enemiesParent: {fileID: 2066805712}
+  chestPrefab: {fileID: 8387544120972304950, guid: 6874628e7f7bac440a33e6c18df3a089, type: 3}
+  itemChestPrefab: {fileID: 7149660322591746948, guid: d90362d712200a344b4333529810b977, type: 3}
+  deadBodyParent: {fileID: 1142760250}
   chestParent: {fileID: 642813624}
+  pickableParent: {fileID: 1482954422}
+  pickablePrefab: {fileID: 5013822441433138144, guid: c2604230fe9cf7441ad8831e9b1b4904, type: 3}
   currentEnemiesAmount: 0
 --- !u!1 &2058804917
 GameObject:

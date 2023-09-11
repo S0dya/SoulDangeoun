@@ -23,6 +23,7 @@ TagManager:
   - MiddleDistanceEnemy
   - FarDistanceEnemy
   - DeadBodyParent
+  - PickableParent
   layers:
   - Default
   - TransparentFX

@@ -6,14 +6,20 @@ using UnityEngine.Tilemaps;
 public class SpawnManager : SingletonMonobehaviour<SpawnManager>
 {
     GameObject[][] enemyPrefabs;
+    [Header("Enemy")]
     [SerializeField] GameObject[] closeEnemies;
     [SerializeField] GameObject[] middleEnemies;
     [SerializeField] GameObject[] farEnemies;
-    
-    [SerializeField] GameObject chestPrefab;
 
     [SerializeField] Transform enemiesParent;
+    [Header("Objects")]
+    [SerializeField] GameObject chestPrefab;
+    [SerializeField] GameObject itemChestPrefab;
+    [SerializeField] Transform deadBodyParent;
     [SerializeField] Transform chestParent;
+    [Header("PickableObjects")]
+    [SerializeField] Transform pickableParent;
+    [SerializeField] GameObject pickablePrefab;
 
     int startX;
     int endX;
@@ -68,7 +74,16 @@ public class SpawnManager : SingletonMonobehaviour<SpawnManager>
         if (curSpawnEnemiesTimes >= spawnEnemiesTimes)
         {
             Vector3Int randomPos = GetRandomPositionWithoutWall();
-            Instantiate(chestPrefab, randomPos, Quaternion.identity, chestParent);
+            if (Random.Range(0, 2) == 1)
+            {
+                Instantiate(chestPrefab, randomPos, Quaternion.identity, chestParent);
+            }
+            else
+            {
+                GameObject itemChestObj = Instantiate(itemChestPrefab, randomPos, Quaternion.identity, chestParent);
+                ItemChest itemChest = itemChestObj.GetComponent<ItemChest>();
+                itemChest.type = Random.Range(0, 1);
+            }
             curRoom.DrawWalls(false);
             Settings.amountOfEnemiesOnLevel++;
         }
@@ -91,5 +106,24 @@ public class SpawnManager : SingletonMonobehaviour<SpawnManager>
                 return randomPosition;
             }
         }
+    }
+
+
+    public void DropWeapon(SO_Weapon weapon)
+    {
+        GameObject pickableObj = Instantiate(pickablePrefab, Player.I.transform.position, Quaternion.identity, pickableParent);
+        PickableObject pickableObject = pickableObj.GetComponent<PickableObject>();
+        pickableObject.type = 0;
+        pickableObject.weapon = weapon;
+    }
+
+
+    public void Clear()
+    {
+        foreach (Transform enemy in enemiesParent) Destroy(enemy.gameObject);//delm
+        foreach (Transform deadBody in deadBodyParent) Destroy(deadBody.gameObject);
+        foreach (Transform chest in chestParent) Destroy(chest.gameObject);
+        foreach (Transform pickable in pickableParent) Destroy(pickable.gameObject);
+        
     }
 }

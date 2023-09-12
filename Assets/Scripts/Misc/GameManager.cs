@@ -29,4 +29,18 @@ public class GameManager : SingletonMonobehaviour<GameManager>
     {
         CG.blocksRaycasts = false;
     }
+
+    public void Fade(GameObject obj, CanvasGroup CG, float durationStart, float durationEnd)
+    {
+        LeanTween.alphaCanvas(CG, 1f, durationStart).setEase(LeanTweenType.easeInOutQuad).setOnComplete(() => FadeOut(obj, CG, durationEnd));
+    }
+    void FadeOut(GameObject obj, CanvasGroup CG, float durationEnd)
+    {
+        LeanTween.alphaCanvas(CG, 0f, durationEnd).setEase(LeanTweenType.easeInOutQuad).setOnComplete(() => DestroyObject(obj));
+    }
+    void DestroyObject(GameObject obj)
+    {
+        Destroy(obj);
+    }
+
 }

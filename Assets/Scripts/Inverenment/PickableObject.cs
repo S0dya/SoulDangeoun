@@ -5,9 +5,8 @@ using TMPro;
 
 public class PickableObject : MonoBehaviour
 {
-    public int type;//weapon, 
-
     public SO_Weapon weapon;
+    public SO_Potion potion;
 
     [SerializeField] SpriteRenderer sprite;
     [SerializeField] TextMeshProUGUI text;
@@ -19,17 +18,17 @@ public class PickableObject : MonoBehaviour
             sprite.sprite = weapon.ItemImage;
             text.text = weapon.Name;
         }
+        else if (potion != null)
+        {
+            sprite.sprite = potion.ItemImage;
+            text.text = potion.Name;
+        }
     }
 
     public void PickObject()
     {
-        switch (type)
-        {
-            case 0:
-                Player.I.PickWeapon(weapon);
-                break;
-            default: break;
-        }
+        if (weapon != null) Player.I.PickWeapon(weapon);
+        else if (potion != null) Player.I.PickPotion(potion);
 
         Destroy(gameObject);
     }

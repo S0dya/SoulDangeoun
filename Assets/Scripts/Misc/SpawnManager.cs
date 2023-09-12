@@ -113,7 +113,6 @@ public class SpawnManager : SingletonMonobehaviour<SpawnManager>
     {
         GameObject pickableObj = Instantiate(pickablePrefab, Player.I.transform.position, Quaternion.identity, pickableParent);
         PickableObject pickableObject = pickableObj.GetComponent<PickableObject>();
-        pickableObject.type = 0;
         pickableObject.weapon = weapon;
     }
 

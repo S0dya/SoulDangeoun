@@ -259,7 +259,22 @@ public class Player : SingletonMonobehaviour<Player>
         weapons[weaponI] = newWeapon;
     }
 
+    public void PickPotion(SO_Potion potion)
+    {
+        int health = potion.AmountOfHealth;
+        int mana = potion.AmountOfMana;
 
+        if (health > 0) 
+        {
+            ChangeValueForBar(0, -health);
+            PlayerGUI.I.AddText($"+ {health}", Settings.colorHealth);
+        }
+        if (mana > 0)
+        {
+            ChangeValueForBar(1, -mana);
+            PlayerGUI.I.AddText($"+ {mana}", Settings.colorMana);
+        }
+    }
 
     //UI
     public void TakeDamage(float value)

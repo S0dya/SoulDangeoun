@@ -9,6 +9,9 @@ public static class Settings
     //player
     public static float speedMultiplier = 1;
 
+    public static Color colorHealth = new Color(255, 0, 0);
+    public static Color colorMana = new Color(0, 0, 255);
+
     /// <summary>
     /// level generation 
     /// </summary>

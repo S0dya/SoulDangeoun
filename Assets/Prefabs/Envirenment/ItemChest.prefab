@@ -424,8 +424,10 @@ MonoBehaviour:
   sprite: {fileID: 7149660322591746970}
   closedSprite:
   - {fileID: 21300000, guid: 651798941865f0b4da997bc45f53f652, type: 3}
+  - {fileID: 21300000, guid: 5b05976d8de9b9a4d8e4ccb47a864b71, type: 3}
   openedSprite:
   - {fileID: 21300000, guid: f4da1379d13092047a63753fe6d3e08f, type: 3}
+  - {fileID: 21300000, guid: b566ae562e86c9140913afaa27a68c63, type: 3}
   pickableObjectPrefab: {fileID: 5013822441433138144, guid: c2604230fe9cf7441ad8831e9b1b4904, type: 3}
   weapons:
   - {fileID: 11400000, guid: f4cc3ff8826beeb4caf5ca57d4ac257f, type: 2}

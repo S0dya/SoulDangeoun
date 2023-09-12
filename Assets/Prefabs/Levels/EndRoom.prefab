@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7352206423381301405}
   - component: {fileID: 6181027194620938465}
   - component: {fileID: 1009724843539122696}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: WallsTop
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
@@ -2152,7 +2152,7 @@ GameObject:
   - component: {fileID: 616457235167816548}
   - component: {fileID: 616457235167816549}
   - component: {fileID: 616457235167816550}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Walls
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
@@ -2792,7 +2792,7 @@ GameObject:
   - component: {fileID: 7261529490995554710}
   - component: {fileID: 5354348300928456496}
   - component: {fileID: 1515926723845726460}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: WallsRight
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
@@ -3112,7 +3112,7 @@ GameObject:
   - component: {fileID: 520506237369610958}
   - component: {fileID: 1914201416435920260}
   - component: {fileID: 1291556372523436892}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: WallsLeft
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
@@ -3432,7 +3432,7 @@ GameObject:
   - component: {fileID: 7338064366715791542}
   - component: {fileID: 45016283872474959}
   - component: {fileID: 866236554303601376}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: WallsDown
   m_TagString: Obstacle
   m_Icon: {fileID: 0}

@@ -24,6 +24,7 @@ TagManager:
   - FarDistanceEnemy
   - DeadBodyParent
   - PickableParent
+  - PickableShopItem
   layers:
   - Default
   - TransparentFX

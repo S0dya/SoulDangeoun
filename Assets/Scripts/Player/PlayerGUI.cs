@@ -8,9 +8,6 @@ public class PlayerGUI : SingletonMonobehaviour<PlayerGUI>
     [SerializeField] GameObject textPrefab;
     [SerializeField] Transform textParent;
 
-    public List<TextMeshProUGUI> texts = new List<TextMeshProUGUI>();
-
-
     protected override void Awake()
     {
         base.Awake();
@@ -25,7 +22,6 @@ public class PlayerGUI : SingletonMonobehaviour<PlayerGUI>
         text.text = textSet;
         text.color = color;
 
-        texts.Add(text);
         GameManager.I.Fade(textObj, textCanvasGroup, 0.3f, 0.5f);
     }
 

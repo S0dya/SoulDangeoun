@@ -433,6 +433,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f4cc3ff8826beeb4caf5ca57d4ac257f, type: 2}
   - {fileID: 11400000, guid: 209864b5eab326440a7521b46b2b750d, type: 2}
   - {fileID: 11400000, guid: 02ee3e2a891eb8a4590e6deb6cc2bda8, type: 2}
+  potionsLittle:
+  - {fileID: 11400000, guid: 27c5eb527585cea4eb5d5d5f6f40cdec, type: 2}
+  - {fileID: 11400000, guid: 9cbacbc9b16344c4d8b31aa632969b0c, type: 2}
+  - {fileID: 11400000, guid: 20eab769d8c81eb4d9d031fc2a33d619, type: 2}
+  potionsBig:
+  - {fileID: 11400000, guid: 101caa66b46f00f4c894c83e89a0a2ff, type: 2}
+  - {fileID: 11400000, guid: e42d9caafaf57224a908191f1769fdd4, type: 2}
+  - {fileID: 11400000, guid: 30f49915e432e114f8861e4eaa6a599c, type: 2}
   isOpened: 0
 --- !u!114 &1963430617943938840
 MonoBehaviour:

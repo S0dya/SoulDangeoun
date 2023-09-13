@@ -15,6 +15,7 @@ MonoBehaviour:
   <itemCode>k__BackingField: 0
   <Name>k__BackingField: pistol
   <ItemImage>k__BackingField: {fileID: 21300000, guid: 5214755098e7b7048a9fede45d6e770c, type: 3}
+  <Price>k__BackingField: 13
   type: 0
   manaOnShoot: 1
   speedOfMovementMultiplier: 0

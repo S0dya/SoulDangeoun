@@ -27,16 +27,23 @@ public static class Settings
     public static int amountOfEnemiesOnLevel = 5;
 
 
+    //shop in game
+    public static float priceMultiplaer = 1;
+
+    //methods
     public static void Clean()
     {
         curLevel = 0;
         levelAmount = 1;
         amountOfEnemiesOnLevel = 5;
+        priceMultiplaer = 1;
     }
 
     public static void NextLevel()
     {
         curLevel++;
+        priceMultiplaer *= 1.2f;
+
         if (curLevel == 4)
         {
             curLevel = 0;

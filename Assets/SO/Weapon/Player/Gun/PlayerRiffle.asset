@@ -15,6 +15,7 @@ MonoBehaviour:
   <itemCode>k__BackingField: 0
   <Name>k__BackingField: Riffle
   <ItemImage>k__BackingField: {fileID: 21300000, guid: 161aaac10d7877149a68e7ba57842374, type: 3}
+  <Price>k__BackingField: 18
   type: 0
   manaOnShoot: 5
   speedOfMovementMultiplier: 0.5

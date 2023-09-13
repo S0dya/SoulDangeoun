@@ -44,7 +44,7 @@ public class Player : SingletonMonobehaviour<Player>
     int[] maxStats = new int[3] { 5, 3, 200 };
     float[] curStats = new float[3] { 1, 1, 1};
     float curMana = 1;
-    int curGold;
+    [HideInInspector] public int curGold;
     int weaponI = 0;
 
     //GUI
@@ -58,8 +58,7 @@ public class Player : SingletonMonobehaviour<Player>
 
     void Start()
     {
-        pointingDirection = new Vector2(1, 0);
-        shootingDirection = new Vector2(1, 0);
+        Clear();
 
         //tempLogic
         weaponSprite.sprite = weapons[0].ItemImage;
@@ -126,18 +125,21 @@ public class Player : SingletonMonobehaviour<Player>
         {
             weapons[weaponI].UnSet();
             weaponI = newI;
-            weapons[weaponI].Set();
 
-            weaponSprite.sprite = weapons[newI].ItemImage;
-            weapons[weaponI] = weapons[newI];
+            SetWeapon();
+        }
+    }
+    void SetWeapon()
+    {
+        weapons[weaponI].Set();
+        weaponSprite.sprite = weapons[weaponI].ItemImage;
 
-            if (weapons[weaponI].type == 1)
-            {
-                meleeWeaponTrigger.damage = weapons[weaponI].damage;
-                meleeWeaponTrigger.meleeImpact = weapons[weaponI].meleeImpact;
-                meleeWeaponCollider.size = weapons[weaponI].colliderSize;
-                meleeWeaponCollider.offset = weapons[weaponI].colliderOffset;
-            }
+        if (weapons[weaponI].type == 1)
+        {
+            meleeWeaponTrigger.damage = weapons[weaponI].damage;
+            meleeWeaponTrigger.meleeImpact = weapons[weaponI].meleeImpact;
+            meleeWeaponCollider.size = weapons[weaponI].colliderSize;
+            meleeWeaponCollider.offset = weapons[weaponI].colliderOffset;
         }
     }
     
@@ -255,8 +257,10 @@ public class Player : SingletonMonobehaviour<Player>
             }
         }
 
+        weapons[weaponI].UnSet();
         SpawnManager.I.DropWeapon(weapons[weaponI]);
         weapons[weaponI] = newWeapon;
+        SetWeapon();
     }
 
     public void PickPotion(SO_Potion potion)
@@ -271,7 +275,7 @@ public class Player : SingletonMonobehaviour<Player>
         }
         if (mana > 0)
         {
-            ChangeValueForBar(1, -mana);
+            ChangeValueForBar(2, -mana);
             PlayerGUI.I.AddText($"+ {mana}", Settings.colorMana);
         }
     }
@@ -328,7 +332,9 @@ public class Player : SingletonMonobehaviour<Player>
 
     public void Clear()
     {
-        transform.position = Vector3.zero;
+        transform.position = Vector3.zero; 
+        pointingDirection = new Vector2(1, 0);
+        shootingDirection = new Vector2(1, 0);
     }
 
     void Die()

@@ -10,6 +10,9 @@ public class PickableObject : MonoBehaviour
 
     [SerializeField] SpriteRenderer sprite;
     [SerializeField] TextMeshProUGUI text;
+    [SerializeField] TextMeshProUGUI priceText;
+
+    public int price = 0;
 
     void Start()
     {
@@ -23,13 +26,25 @@ public class PickableObject : MonoBehaviour
             sprite.sprite = potion.ItemImage;
             text.text = potion.Name;
         }
+
+        if (price > 0) priceText.text = price.ToString();
     }
 
     public void PickObject()
     {
+        if (price > 0)
+        {
+            if (price <= Player.I.curGold)
+            {
+                Player.I.ChangeGold(-price);
+            }
+            else return;
+        }
+
         if (weapon != null) Player.I.PickWeapon(weapon);
         else if (potion != null) Player.I.PickPotion(potion);
 
+        
         Destroy(gameObject);
     }
 }

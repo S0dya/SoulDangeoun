@@ -20,6 +20,10 @@ public class SpawnManager : SingletonMonobehaviour<SpawnManager>
     [Header("PickableObjects")]
     [SerializeField] Transform pickableParent;
     [SerializeField] GameObject pickablePrefab;
+    [Header("SO")]
+    [SerializeField] SO_Weapon[] weapons;
+    [SerializeField] SO_Potion[] potionsLittle;
+    [SerializeField] SO_Potion[] potionsBig;
 
     int startX;
     int endX;
@@ -122,7 +126,52 @@ public class SpawnManager : SingletonMonobehaviour<SpawnManager>
         foreach (Transform enemy in enemiesParent) Destroy(enemy.gameObject);//delm
         foreach (Transform deadBody in deadBodyParent) Destroy(deadBody.gameObject);
         foreach (Transform chest in chestParent) Destroy(chest.gameObject);
-        foreach (Transform pickable in pickableParent) Destroy(pickable.gameObject);
-        
+        foreach (Transform pickable in pickableParent)
+        {
+            Debug.Log("a"); 
+            Destroy(pickable.gameObject);
+        }
+    }
+
+    //spawn pickable objects
+    public void SpawnPickableShopItems()
+    {
+        GameObject[] pickableShopItems = GameObject.FindGameObjectsWithTag("PickableShopItem");
+        foreach (GameObject item in pickableShopItems)
+        {
+            Debug.Log("s");
+            SpawnPickable(item.transform.position, (Random.Range(0, 6) < 4 ? 0 : 1), true);
+        }
+    }
+
+    public void SpawnPickable(Vector2 pos, int type, bool setPrice)
+    {
+        GameObject pickableObj = Instantiate(pickablePrefab, pos, Quaternion.identity, pickableParent);
+        PickableObject pickable = pickableObj.GetComponent<PickableObject>();
+        int index = 0;
+
+        switch (type)
+        {
+            case 0:
+                index = Random.Range(0, weapons.Length);
+                pickable.weapon = weapons[index];
+                if (setPrice) pickable.price = (int)(weapons[index].Price * Settings.priceMultiplaer);
+                break;
+            case 1:
+                if (Random.Range(0, 4) != 3)
+                {
+                    index = Random.Range(0, potionsLittle.Length);
+                    pickable.potion = potionsLittle[index];
+                    if (setPrice) pickable.price = (int)(potionsLittle[index].Price * Settings.priceMultiplaer);
+                }
+                else
+                {
+                    index = Random.Range(0, potionsBig.Length);
+                    pickable.potion = potionsBig[index];
+                    if (setPrice) pickable.price = (int)(potionsBig[index].Price * Settings.priceMultiplaer);
+                }
+                break;
+            default: break;
+        }
     }
 }

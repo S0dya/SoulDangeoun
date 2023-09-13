@@ -11,6 +11,7 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
     [SerializeField] Player player;
 
     [SerializeField] NavMeshSurface surface;
+    [SerializeField] SpawnManager spawnManager;
 
     [Header("Levels")]
     //Realm0.0
@@ -215,6 +216,7 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
     {
         LoadingSceneManager.I.SetFillAmount(0.8f);
         surface.BuildNavMeshAsync();
+        
         DrawWallsForLevels();
     }
     
@@ -229,6 +231,7 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
 
     void StopLoadingLevel()
     {
+        spawnManager.SpawnPickableShopItems();
         LoadingSceneManager.I.CloseLoadingScreen();
     }
 

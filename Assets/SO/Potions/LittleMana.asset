@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 68b8d03b775b0244aa50518d5b322408, type: 3}
-  m_Name: LittleHp
+  m_Name: LittleMana
   m_EditorClassIdentifier: 
   <itemCode>k__BackingField: 0
-  <Name>k__BackingField: Health potion small
-  <ItemImage>k__BackingField: {fileID: 21300000, guid: 2967efcec180ed74eb1c587fbf12638e, type: 3}
+  <Name>k__BackingField: Mana potion small
+  <ItemImage>k__BackingField: {fileID: 21300000, guid: b035c57dde8a4c94a9a008fd882f9745, type: 3}
   <Price>k__BackingField: 20
   type: 0
-  AmountOfHealth: 2
-  AmountOfMana: 0
+  AmountOfHealth: 0
+  AmountOfMana: 80

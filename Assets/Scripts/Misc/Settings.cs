@@ -27,6 +27,11 @@ public static class Settings
     public static int amountOfEnemiesOnLevel = 5;
 
 
+    //characters 0-knight 1-assasin 2-wizard
+    public static int[] healths = new int[] { 5, 4, 5 };
+    public static int[] shields = new int[] { 5, 3, 4 };
+    public static int[] mana = new int[] { 200, 140, 240 };
+
     //shop in game
     public static float priceMultiplaer = 1;
 

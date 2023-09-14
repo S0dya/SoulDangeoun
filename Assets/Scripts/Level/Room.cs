@@ -56,5 +56,5 @@ public class Room : MonoBehaviour
         }
     }
 
-    public void DestroyObject() => Destroy(gameObject);
+    //public void DestroyObject() => Destroy(gameObject);
 }

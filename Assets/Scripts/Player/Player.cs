@@ -9,7 +9,7 @@ public class Player : SingletonMonobehaviour<Player>
     [SerializeField] FloatingJoystick fJoystick;
     [SerializeField] Rigidbody2D rb;
 
-    [SerializeField] SO_Weapon[] weapons = new SO_Weapon[2];
+    public SO_Weapon[] weapons;
     [SerializeField] Transform weaponTransform;
     [SerializeField] Transform weaponShootingTransform;
     [Header("Melee")]
@@ -19,9 +19,11 @@ public class Player : SingletonMonobehaviour<Player>
 
     [SerializeField] SpriteRenderer weaponSprite;
     [Header("Power")]
-    [SerializeField] SO_Power power;
+    public SO_Power power;
     [SerializeField] Image activityOfPowerButton;
     [Header("UI")]
+    [SerializeField] GameObject inputUI;
+    [SerializeField] GameObject playerInterface;
     [SerializeField] Image[] bars;
     [SerializeField] TextMeshProUGUI[] barsText;
     [SerializeField] TextMeshProUGUI goldText;
@@ -41,7 +43,7 @@ public class Player : SingletonMonobehaviour<Player>
     bool canUsePower = true;
 
     //local
-    int[] maxStats = new int[3] { 5, 3, 200 };
+    public int[] maxStats;
     float[] curStats = new float[3] { 1, 1, 1};
     float curMana = 1;
     [HideInInspector] public int curGold;
@@ -58,12 +60,14 @@ public class Player : SingletonMonobehaviour<Player>
 
     void Start()
     {
+        inputUI.SetActive(false);//delter
+        playerInterface.SetActive(false);
         Clear();
 
         //tempLogic
-        weaponSprite.sprite = weapons[0].ItemImage;
 
     }
+
 
     void Update()
     {
@@ -329,6 +333,17 @@ public class Player : SingletonMonobehaviour<Player>
     }
 
 
+
+    public void EnablePlayer()
+    {
+        weaponSprite.sprite = weapons[0].ItemImage;
+        SetWeapon();
+
+        for (int i = 0; i < 3; i++) ChangeValueForBar(i, 0);
+
+        inputUI.SetActive(true);
+        playerInterface.SetActive(true);
+    }
 
     public void Clear()
     {

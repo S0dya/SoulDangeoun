@@ -13,6 +13,8 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
     [SerializeField] NavMeshSurface surface;
     [SerializeField] SpawnManager spawnManager;
 
+    [SerializeField] GameObject hubRoom;
+
     [Header("Levels")]
     //Realm0.0
     [SerializeField] GameObject startRoomForest;
@@ -63,7 +65,13 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
 
     void Start()
     {
-        GenerateLevel();
+        SpawnHubRoom();
+    }
+
+    void SpawnHubRoom()
+    {
+        Instantiate(hubRoom, Vector2.zero, Quaternion.identity, levelsParentTransform);
+
     }
 
     void Update()
@@ -78,6 +86,7 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
         }
     }
 
+    //methods
     public void GenerateLevel()
     {
         LoadingSceneManager.I.OpenLoadingScreen();
@@ -362,7 +371,7 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
     void Clear()
     {   
         SpawnManager.I.Clear();
-        foreach (Room room in createdRoomsList) room.DestroyObject();
+        foreach (Transform room in levelsParentTransform) Destroy(room.gameObject);
         createdRoomsList = new List<Room>();
         foreach (LevelUI level in createdLevelsUIList) level.DestroyObject();
         createdLevelsUIList = new List<LevelUI>();

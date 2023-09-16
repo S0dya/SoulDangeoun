@@ -9,4 +9,6 @@ public class SO_Potion : SO_Item
 
     public int AmountOfHealth;
     public int AmountOfMana;
+
+    public int description;
 }

@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu]
-public class SO_Power : ScriptableObject
+public class SO_Power : SO_Item
 {
     public bool canUsePower = true;
     public float durationOfPower;
     public float reloadOfPower;
+    public string description;
+
+    public float powerMult = 0.5f;
 
     public void ActivatePower()
     {
@@ -16,9 +19,9 @@ public class SO_Power : ScriptableObject
 
     IEnumerator PowerDurationCor()
     {
-        Settings.speedMultiplier += 0.5f;
+        Settings.speedMultiplier += powerMult;
         yield return new WaitForSeconds(durationOfPower);
-        Settings.speedMultiplier -= 0.5f;
+        Settings.speedMultiplier -= powerMult;
     }
     
 }

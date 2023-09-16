@@ -12,6 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 942c3bee382407942aaeaad74d2833ba, type: 3}
   m_Name: Dash
   m_EditorClassIdentifier: 
+  <itemCode>k__BackingField: 0
+  <Name>k__BackingField: Dash
+  <ItemImage>k__BackingField: {fileID: 21300000, guid: f2280d5d30762834ca97de9b23efde6e, type: 3}
+  <Price>k__BackingField: 0
   canUsePower: 1
   durationOfPower: 1
   reloadOfPower: 4
+  description: Makes your movement faster
+  powerMult: 0.5

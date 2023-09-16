@@ -22,9 +22,8 @@ public class Bullet : MonoBehaviour
         }
         else if (enemyLayer == (enemyLayer | (1 << collision.gameObject.layer)))
         {
-            GameObject enemyObj = collision.gameObject;
-            Enemy enemy = enemyObj.GetComponent<Enemy>();
-            enemy.DamageImpact((Vector2)(enemyObj.transform.position - transform.position), bulletImpact);
+            Enemy enemy = collision.GetComponent<Enemy>();
+            enemy.DamageImpact((Vector2)(collision.transform.position - transform.position), bulletImpact);
             enemy.ChangeHP(damage);
             Destroy(gameObject);
         }

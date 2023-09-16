@@ -17,14 +17,18 @@ public class LoadingSceneManager : SingletonMonobehaviour<LoadingSceneManager>
 
     void Start()
     {
-        //StartCoroutine(LoadMenu(false));
+        //LoadMenu(false);
     }
 
-    
 
-    public IEnumerator LoadMenu(bool closeGame)
+    public void LoadMenu(bool val)
     {
-        if (closeGame) SceneManager.UnloadSceneAsync(1);
+        StartCoroutine(LoadMenuCor(val));
+    }
+
+    IEnumerator LoadMenuCor(bool closeGame)
+    {
+        if (closeGame) SceneManager.UnloadSceneAsync(2);
         AsyncOperation operation = SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive);
 
         SetFillAmount(0);

@@ -10,17 +10,14 @@ public class Player : SingletonMonobehaviour<Player>
     [SerializeField] Rigidbody2D rb;
 
     public SO_Weapon[] weapons;
-    [SerializeField] Transform weaponTransform;
-    [SerializeField] Transform weaponShootingTransform;
+    [SerializeField] Transform[] weaponsTransform;
+    [SerializeField] Transform[] weaponsShootingTransform;
+    [SerializeField] Animator[] weaponsAnimator;
     [Header("Melee")]
-    [SerializeField] Animator meleeWeaponAnimator;
-    [SerializeField] BoxCollider2D meleeWeaponCollider;
-    [SerializeField] MeleeWeaponTrigger meleeWeaponTrigger;
+    [SerializeField] BoxCollider2D[] meleeWeaponCollider;
+    [SerializeField] MeleeWeaponTrigger[] meleeWeaponTrigger;
 
-    [SerializeField] SpriteRenderer weaponSprite;
-    [Header("Power")]
-    public SO_Power power;
-    [SerializeField] Image activityOfPowerButton;
+    [SerializeField] SpriteRenderer[] weaponsSprite;
     [Header("UI")]
     [SerializeField] GameObject inputUI;
     [SerializeField] GameObject playerInterface;
@@ -47,7 +44,10 @@ public class Player : SingletonMonobehaviour<Player>
     float[] curStats = new float[3] { 1, 1, 1};
     float curMana = 1;
     [HideInInspector] public int curGold;
+    
     int weaponI = 0;
+    [HideInInspector] public int amountOfWeapon = 1;
+
 
     //GUI
     [HideInInspector] public bool onGUI;
@@ -79,17 +79,17 @@ public class Player : SingletonMonobehaviour<Player>
         {
             StopShooting();
         }
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            OnUsePowerButton();
-        }
         
         Vector2 direction = (seesEnemy ? shootingDirection : pointingDirection);
         direction.Normalize();
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         
-        if (isLookingOnRight) weaponTransform.localRotation = Quaternion.Euler(180, 180, -angle);
-        else weaponTransform.localRotation = Quaternion.Euler(0, 0, angle);
+        for (int i = 0; i < amountOfWeapon; i++)
+        {
+        if (isLookingOnRight) weaponsTransform[i].localRotation = Quaternion.Euler(180, 180, -angle);
+        else weaponsTransform[i].localRotation = Quaternion.Euler(0, 0, angle);
+        }
+        
     }
     
     //Input
@@ -112,39 +112,37 @@ public class Player : SingletonMonobehaviour<Player>
     }
     
     //Buttons
-    public void OnUsePowerButton()
-    {
-        if (canUsePower)
-        {
-            StartCoroutine(PowerActivityCor());
-            power.ActivatePower();
-        }
-    }
-
     public void OnChangeWeaponButton()
     {
-        int i = weaponI + 1;
-        int newI = (i == weapons.Length ? 0 : i);
+        int nextI = weaponI + 1;
+        int newI = (nextI== weapons.Length ? 0 : nextI);
         if (weapons[newI] != null)
         {
             weapons[weaponI].UnSet();
             weaponI = newI;
 
-            SetWeapon();
+            for (int i = 0; i < amountOfWeapon; i++) 
+            {
+                SetWeapon(i);
+            }
         }
     }
-    void SetWeapon()
+    void SetWeapon(int i)
     {
-        weapons[weaponI].Set();
-        weaponSprite.sprite = weapons[weaponI].ItemImage;
+        if (i == 0) weapons[weaponI].Set();
+        weaponsSprite[i].sprite = weapons[weaponI].ItemImage;
 
         if (weapons[weaponI].type == 1)
         {
-            meleeWeaponTrigger.damage = weapons[weaponI].damage;
-            meleeWeaponTrigger.meleeImpact = weapons[weaponI].meleeImpact;
-            meleeWeaponCollider.size = weapons[weaponI].colliderSize;
-            meleeWeaponCollider.offset = weapons[weaponI].colliderOffset;
+            meleeWeaponTrigger[i].damage = weapons[weaponI].damage;
+            meleeWeaponTrigger[i].meleeImpact = weapons[weaponI].meleeImpact;
+            meleeWeaponCollider[i].size = weapons[weaponI].colliderSize;
+            meleeWeaponCollider[i].offset = weapons[weaponI].colliderOffset;
         }
+    }
+    public void ShowSecondWeapon(bool val)
+    {
+        weaponsSprite[1].sprite = val ? weapons[weaponI].ItemImage : null;
     }
     
 
@@ -184,10 +182,18 @@ public class Player : SingletonMonobehaviour<Player>
         {
             if (canShoot && hasManaToShoot)
             {
-                Shoot();
+                StartCoroutine(ShootingWithDelayCor());
                 StartCoroutine(Reloading());
             }
             yield return null;
+        }
+    }
+    IEnumerator ShootingWithDelayCor()
+    {
+        for (int i = 0; i < amountOfWeapon; i++)
+        {
+            Shoot(i);
+            yield return new WaitForSeconds(weapons[weaponI].delayOfShootingWithDoubleWeapon);
         }
     }
     IEnumerator Reloading()
@@ -197,25 +203,10 @@ public class Player : SingletonMonobehaviour<Player>
         canShoot = true;
     }
 
+
     
 
     //UICor
-    IEnumerator PowerActivityCor()
-    {
-        canUsePower = false;
-        float time = 0;
-        float reload = power.reloadOfPower;
-        while (time < reload)
-        {
-            activityOfPowerButton.fillAmount = time / reload;
-            time += Time.deltaTime;
-
-            yield return null;
-        }
-        activityOfPowerButton.fillAmount = 1;
-        canUsePower = true;
-    }
-
     IEnumerator ArmorRegenerationCor()
     {
         yield return new WaitForSeconds(5f);
@@ -234,17 +225,17 @@ public class Player : SingletonMonobehaviour<Player>
         transform.localScale = new Vector2(transform.localScale.x == 1 ? -1 : 1, 1);
     }
 
-    void Shoot()
+    void Shoot(int i)
     {
         if (!seesEnemy)
         {
             shootingDirection = pointingDirection;
         }
-        
-        weapons[weaponI].Shoot((Vector2)weaponShootingTransform.position, shootingDirection);
+
+        weapons[weaponI].Shoot((Vector2)weaponsShootingTransform[i].position, shootingDirection);
         if (weapons[weaponI].type == 1)
         {
-            meleeWeaponAnimator.Play("Swing");
+            weaponsAnimator[i].Play("Swing");
 
         }
         ChangeMana(weapons[weaponI].manaOnShoot);
@@ -264,7 +255,10 @@ public class Player : SingletonMonobehaviour<Player>
         weapons[weaponI].UnSet();
         SpawnManager.I.DropWeapon(weapons[weaponI]);
         weapons[weaponI] = newWeapon;
-        SetWeapon();
+        for (int i = 0; i < amountOfWeapon; i++)
+        {
+            SetWeapon(i);
+        }
     }
 
     public void PickPotion(SO_Potion potion)
@@ -336,8 +330,11 @@ public class Player : SingletonMonobehaviour<Player>
 
     public void EnablePlayer()
     {
-        weaponSprite.sprite = weapons[0].ItemImage;
-        SetWeapon();
+        for (int i = 0; i < amountOfWeapon; i++)
+        {
+            weaponsSprite[i].sprite = weapons[0].ItemImage;
+            SetWeapon(i);
+        }
 
         for (int i = 0; i < 3; i++) ChangeValueForBar(i, 0);
 

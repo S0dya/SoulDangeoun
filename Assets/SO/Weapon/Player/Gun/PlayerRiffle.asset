@@ -25,6 +25,7 @@ MonoBehaviour:
   shootingSpread: 0.1
   recoil: 0
   delayOfShooting: 0.1
+  delayOfShootingWithDoubleWeapon: 0.05
   reloadingTimeMin: 0.15
   reloadingTimeMax: 0.3
   destroyingDelay: 10

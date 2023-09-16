@@ -13,13 +13,18 @@ public class HubRoom : MonoBehaviour
 
     [Header("Set")]
     [SerializeField] SO_Weapon[] weapons;
-    [SerializeField] SO_Power[] powers;
     [SerializeField] Sprite[] sprites;
+    [SerializeField] Sprite[] powersImages;
 
     [Header("UI")]
     [SerializeField] CanvasGroup characterPanelCG;
 
     [SerializeField] TextMeshProUGUI crystalsAmount;
+
+    [SerializeField] GameObject buyPanel;
+    [SerializeField] GameObject boughtPanel;
+    [SerializeField] TextMeshProUGUI buyPriceText;
+    [SerializeField] TextMeshProUGUI upgradePriceText;
 
     [SerializeField] TextMeshProUGUI characterName;
     [SerializeField] TextMeshProUGUI characterDescription;
@@ -58,6 +63,7 @@ public class HubRoom : MonoBehaviour
         curIndex = index;
         SetCharacterInfo();
         CinemachineCamera.I.ChangeCameraFollow(choosableCharactersTransform[curIndex]);
+        CinemachineCamera.I.MoveCameraCloser();
         GameManager.I.Open(characterPanelCG, 0.4f);
     }
     public void OnStopLookingAtCharacterButton()
@@ -65,6 +71,7 @@ public class HubRoom : MonoBehaviour
         if (curIndex == -1) return;
         curIndex = -1;
         CinemachineCamera.I.ChangeCameraFollow(zeroZeroCamTransform);
+        CinemachineCamera.I.MoveCameraFurther();
         GameManager.I.Close(characterPanelCG, 0.1f);
     }
 
@@ -79,16 +86,27 @@ public class HubRoom : MonoBehaviour
 
         player.maxStats = new int[] { Settings.healths[curIndex], Settings.shields[curIndex], Settings.mana[curIndex] };
         player.weapons[0] = weapons[curIndex];
-        player.power = powers[curIndex];
+        PowerButton.I.ChangePower(curIndex);
 
         var playerSR = playerObj.GetComponent<SpriteRenderer>();
         playerSR.sprite = sprites[curIndex];
 
         GameManager.I.Close(characterPanelCG, 0.1f);
         CinemachineCamera.I.ChangeCameraFollow(playerObj.transform);
+        CinemachineCamera.I.MoveCameraForPlayer();
+
         player.EnablePlayer();
     }
-
+    
+    public void OnBuyButton()
+    {
+        if (Settings.crystalsAmount >= Settings.charactersPrice[curIndex])
+        {
+            ChangeCrystals(-Settings.charactersPrice[curIndex]);
+            ToggleBuyPanel(false);
+        }
+    }
+    
     public void OnUpgradeCharacterButton()
     {
         if (Settings.crystalsAmount >= Settings.upgradePrices[curIndex] 
@@ -123,20 +141,33 @@ public class HubRoom : MonoBehaviour
 
             Settings.upgradePrices[curIndex] += nextPrice;
             Settings.currentUpgrade[curIndex]++;
-            upgradeDescription.text = Settings.upgradesText[Settings.currentUpgrade[curIndex]];
+
+            SetLeftStats();
         }
     }
 
     //methods
     void SetCharacterInfo()
     {
+        ToggleBuyPanel(Settings.charactersPrice[curIndex] > 0);
+        buyPriceText.text = Settings.charactersPrice[curIndex].ToString();
+
+        buyPanel.SetActive(Settings.charactersPrice[curIndex] > 0);
+        buyPriceText.text = Settings.charactersPrice[curIndex].ToString();
+
         characterName.text = Settings.characterName[curIndex];
         characterDescription.text = Settings.characterDescription[curIndex];
 
-        powerName.text = powers[curIndex].Name;
-        powerImage.sprite = powers[curIndex].ItemImage;
-        powerDescription.text = powers[curIndex].description;
+        powerName.text = Settings.powersName[curIndex];
+        powerImage.sprite = powersImages[curIndex];
+        powerDescription.text = Settings.powersDescription[curIndex];
 
+        SetLeftStats();
+    }
+
+    void SetLeftStats()
+    {
+        upgradePriceText.text = Settings.upgradePrices[curIndex].ToString();
         upgradeDescription.text = Settings.upgradesText[Settings.currentUpgrade[curIndex]];
 
         statsBarDescription[0].text = Settings.healths[curIndex].ToString();
@@ -148,5 +179,11 @@ public class HubRoom : MonoBehaviour
     {
         Settings.crystalsAmount = Math.Max(Settings.crystalsAmount + val, 0);
         crystalsAmount.text = Settings.crystalsAmount.ToString();
+    }
+
+    void ToggleBuyPanel(bool val)
+    {
+        buyPanel.SetActive(val);
+        boughtPanel.SetActive(!val);
     }
 }

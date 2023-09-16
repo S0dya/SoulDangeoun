@@ -16,6 +16,7 @@ public class SO_Weapon : SO_Item
     public float shootingSpread;
     public int recoil;
     public float delayOfShooting;
+    public float delayOfShootingWithDoubleWeapon;
     public float reloadingTimeMin;
     public float reloadingTimeMax;
     public float destroyingDelay;
@@ -33,7 +34,7 @@ public class SO_Weapon : SO_Item
         switch (type)
         {
             case 0:
-                GameManager.I.StartCoroutine(ShootThreeBullets(initialPos, shootingDirection));
+                GameManager.I.StartCoroutine(ShooBullets(initialPos, shootingDirection));
                 break;
             default:
                 break;
@@ -52,7 +53,7 @@ public class SO_Weapon : SO_Item
     }
 
 
-    IEnumerator ShootThreeBullets(Vector2 initialPos, Vector2 shootingDirection)
+    IEnumerator ShooBullets(Vector2 initialPos, Vector2 shootingDirection)
     {
         int curAmountShot = 0;
         while (curAmountShot < amountToShoot)

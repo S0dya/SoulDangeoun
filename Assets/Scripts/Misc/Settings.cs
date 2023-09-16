@@ -43,8 +43,17 @@ public static class Settings
         "Increase health by 1", "increase shield by 1", "increase mana by 40", 
         "upgrade power", "Increase health by 1", "increase shield by 1", "increase mana by 40"};
 
+    public static string[] powersName = new string[] {
+    "Double weapon", "Dash", "Splash" };
+    public static string[] powersDescription = new string[] {
+    "Take the weapon in another hand too!", "Makes your movement faster!", "Cast magic splash to throw enemies away!" };
+
     public static int[] charactersPrice = new int[] { 0, 1500, 3500 };
     public static int[] upgradePrices = new int[] { 1000, 1500, 2000 };
+
+    //powers
+    public static float[] reloadOfPowers = new float[] { 3, 3, 5 };
+    public static float[] durationOfPowers = new float[] {4, 4, 6 };
 
     //shop in game
     public static float priceMultiplaer = 1;

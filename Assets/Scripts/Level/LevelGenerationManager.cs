@@ -65,7 +65,9 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
 
     void Start()
     {
+        Settings.curentEarntCrystals = 0;
         SpawnHubRoom();
+        LoadingSceneManager.I.CloseLoadingScreen();
     }
 
     void SpawnHubRoom()

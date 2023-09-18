@@ -7,6 +7,9 @@ public static class Settings
     public static float curMulptlier;
     public static int crystalsAmount = 1551;
 
+    public static float curCrystalsMulptlier = 1;
+    public static float curentEarntCrystals;
+
     //player
     public static float speedMultiplier = 1;
 
@@ -26,6 +29,10 @@ public static class Settings
     public static int curDungeonRealm = 0;
     public static int levelAmount = 1;
     public static int amountOfEnemiesOnLevel = 5;
+
+    public static int amountOfKilledCloseEnemies;
+    public static int amountOfKilledMiddleEnemies;
+    public static int amountOfKilledFarEnemies;
 
 
     //characters 0-knight 1-assasin 2-wizard
@@ -58,19 +65,17 @@ public static class Settings
     //shop in game
     public static float priceMultiplaer = 1;
 
-    //methods
-    public static void Clean()
-    {
-        curLevel = 0;
-        levelAmount = 1;
-        amountOfEnemiesOnLevel = 5;
-        priceMultiplaer = 1;
-    }
+    //settings
+    public static bool isMusicOn = true;
 
+    //methods
     public static void NextLevel()
     {
         curLevel++;
         priceMultiplaer *= 1.2f;
+
+        curentEarntCrystals += 35 * curCrystalsMulptlier;
+        curCrystalsMulptlier += 0.1f;
 
         if (curLevel == 4)
         {

@@ -23,15 +23,28 @@ public class LoadingSceneManager : SingletonMonobehaviour<LoadingSceneManager>
 
     public void LoadMenu(bool val)
     {
-        StartCoroutine(LoadMenuCor(val));
+        StartCoroutine(LoadSceneCor(val, 2, 1));
+    }
+    
+    public void RestartGame()
+    {
+        StartCoroutine(LoadSceneCor(true, 2, 2));
     }
 
-    IEnumerator LoadMenuCor(bool closeGame)
+    public void LoadGame()
     {
-        if (closeGame) SceneManager.UnloadSceneAsync(2);
-        AsyncOperation operation = SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive);
+        OpenLoadingScreen();
 
-        SetFillAmount(0);
+        SceneManager.UnloadSceneAsync(1);
+        SceneManager.LoadSceneAsync(2, LoadSceneMode.Additive);
+    }
+    
+    
+    IEnumerator LoadSceneCor(bool closeGame, int sceneToClose, int SceneToOpen)
+    {
+        if (closeGame) SceneManager.UnloadSceneAsync(sceneToClose);
+        AsyncOperation operation = SceneManager.LoadSceneAsync(SceneToOpen, LoadSceneMode.Additive);
+
         OpenLoadingScreen();
 
         while (!operation.isDone)
@@ -46,15 +59,7 @@ public class LoadingSceneManager : SingletonMonobehaviour<LoadingSceneManager>
         CloseLoadingScreen();
     }
 
-    public void LoadGame()
-    {
-        SceneManager.UnloadSceneAsync(1);
-        SceneManager.LoadSceneAsync(2, LoadSceneMode.Additive);
-
-        SetFillAmount(0);
-        OpenLoadingScreen();
-    }
-
+    
     public void OpenLoadingScreen()
     {
         SetFillAmount(0);
@@ -66,7 +71,7 @@ public class LoadingSceneManager : SingletonMonobehaviour<LoadingSceneManager>
     }
     public void CloseLoadingScreen()
     {
-        GameManager.I.Close(loadingScreenCanvasGroup, 0.3f);
+        GameManager.I.Close(loadingScreenCanvasGroup, 0.6f);
 
     }
 }

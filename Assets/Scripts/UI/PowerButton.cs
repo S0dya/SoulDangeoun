@@ -127,16 +127,17 @@ public class PowerButton : SingletonMonobehaviour<PowerButton>
     IEnumerator PowerActivityCor()
     {
         canUsePower = false;
-        float time = 0;
         float reload = reloadOfPower;
-        while (time < reload)
+        float time = reload;
+
+        while (time > 0.01f)
         {
             activityOfPowerButton.fillAmount = time / reload;
-            time += Time.deltaTime;
+            time -= Time.deltaTime;
 
             yield return null;
         }
-        activityOfPowerButton.fillAmount = 1;
+        activityOfPowerButton.fillAmount = 0;
         canUsePower = true;
     }
 

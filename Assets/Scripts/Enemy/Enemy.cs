@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
 
     [Header("Enemy")]
     [SerializeField] int behaviourType; //melee, middle, far
+    [SerializeField] float crystalsOnDeath;
     [SerializeField] float HPMultiplier;
     [SerializeField] int distanceRandomTargetPick;
     [SerializeField] float minTimeRandomTargetPick;
@@ -254,10 +255,28 @@ public class Enemy : MonoBehaviour
             SpawnManager.I.SpawnMoreChecck();
         }
 
+        Debug.Log(gameObject.tag);
+        switch (gameObject.tag)
+        {
+            case "CloseDistanceEnemy":
+                Settings.amountOfKilledCloseEnemies++;
+                break;
+            case "MiddleDistanceEnemy":
+                Settings.amountOfKilledMiddleEnemies++;
+                break;
+            case "FarDistanceEnemy":
+                Settings.amountOfKilledFarEnemies++;
+                break;
+            default: break;
+        }
+
+        Settings.curentEarntCrystals += crystalsOnDeath * Settings.curCrystalsMulptlier;
+
+
         GameObject deadBodyObj = Instantiate(deadBodyPrefab, transform.position, Quaternion.identity, deadBodyParent);
         Rigidbody2D deadBodyRb = deadBodyObj.GetComponent<Rigidbody2D>();
         deadBodyRb.AddForce(lastImpactPos * lastImpactDistance, ForceMode2D.Impulse);
-
+        
         Destroy(gameObject);
     }
 

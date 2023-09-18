@@ -38,6 +38,7 @@ public class Player : SingletonMonobehaviour<Player>
     bool isLookingOnRight;
     [HideInInspector] public bool isEnemyOnTheRight;
     bool canUsePower = true;
+    [HideInInspector] public bool hasResurrected;
 
     //local
     public int[] maxStats;
@@ -79,15 +80,19 @@ public class Player : SingletonMonobehaviour<Player>
         {
             StopShooting();
         }
-        
+        if (Input.GetKeyUp(KeyCode.I))
+        {
+            Settings.crystalsAmount += 1551;
+        }
+
         Vector2 direction = (seesEnemy ? shootingDirection : pointingDirection);
         direction.Normalize();
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         
-        for (int i = 0; i < amountOfWeapon; i++)
+        for (int i = 0; i < 2; i++)
         {
-        if (isLookingOnRight) weaponsTransform[i].localRotation = Quaternion.Euler(180, 180, -angle);
-        else weaponsTransform[i].localRotation = Quaternion.Euler(0, 0, angle);
+            if (isLookingOnRight) weaponsTransform[i].localRotation = Quaternion.Euler(180, 180, -angle);
+            else weaponsTransform[i].localRotation = Quaternion.Euler(0, 0, angle);
         }
         
     }
@@ -342,6 +347,12 @@ public class Player : SingletonMonobehaviour<Player>
         playerInterface.SetActive(true);
     }
 
+    public void DesablePlayer()
+    {
+        inputUI.SetActive(false);
+        playerInterface.SetActive(false);
+    }
+
     public void Clear()
     {
         transform.position = Vector3.zero; 
@@ -351,6 +362,7 @@ public class Player : SingletonMonobehaviour<Player>
 
     void Die()
     {
-        Debug.Log("GameOver");
+        DesablePlayer();
+        GameMenu.I.Gameover();
     }
 }

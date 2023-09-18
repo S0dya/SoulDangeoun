@@ -55,6 +55,7 @@ MonoBehaviour:
   rb: {fileID: 4225549585042992105}
   deadBodyPrefab: {fileID: 1758218144339039996, guid: d8af6c76661bbc040bda98f4d41bebc2, type: 3}
   behaviourType: 2
+  crystalsOnDeath: 0.5
   HPMultiplier: 1
   distanceRandomTargetPick: 1
   minTimeRandomTargetPick: 2

@@ -13,6 +13,7 @@ public class MeleeWeaponTrigger : MonoBehaviour
     {
         if (enemyLayer == (enemyLayer | (1 << collision.gameObject.layer)))
         {
+            Debug.Log("dd");
             GameObject enemyObj = collision.gameObject;
             Enemy enemy = enemyObj.GetComponent<Enemy>();
             enemy.DamageImpact((Vector2)(enemyObj.transform.position - transform.position), meleeImpact);

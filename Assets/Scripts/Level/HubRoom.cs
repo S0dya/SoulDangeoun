@@ -103,6 +103,7 @@ public class HubRoom : MonoBehaviour
         if (Settings.crystalsAmount >= Settings.charactersPrice[curIndex])
         {
             ChangeCrystals(-Settings.charactersPrice[curIndex]);
+            Settings.charactersPrice[curIndex] = 0;
             ToggleBuyPanel(false);
         }
     }
@@ -167,8 +168,16 @@ public class HubRoom : MonoBehaviour
 
     void SetLeftStats()
     {
-        upgradePriceText.text = Settings.upgradePrices[curIndex].ToString();
-        upgradeDescription.text = Settings.upgradesText[Settings.currentUpgrade[curIndex]];
+        if (Settings.currentUpgrade[curIndex] < 7)
+        {
+            upgradePriceText.text = Settings.upgradePrices[curIndex].ToString();
+            upgradeDescription.text = Settings.upgradesText[Settings.currentUpgrade[curIndex]];
+        }
+        else
+        {
+            upgradePriceText.text = "Max upgrade";
+            upgradeDescription.text = "Max upgrade";
+        }    
 
         statsBarDescription[0].text = Settings.healths[curIndex].ToString();
         statsBarDescription[1].text = Settings.shields[curIndex].ToString();

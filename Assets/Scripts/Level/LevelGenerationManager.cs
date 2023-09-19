@@ -15,18 +15,21 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
 
     [SerializeField] GameObject hubRoom;
 
-    [Header("Levels")]
+    [Header("Level : 0.0")]
     //Realm0.0
     [SerializeField] GameObject startRoomForest;
     [SerializeField] GameObject endRoomForest;
     [SerializeField] GameObject[] enemiesRoomsForest;
     [SerializeField] GameObject[] uniqueRoomsForest;
+    [SerializeField] TileBase[] floorTilesForest;
 
+    [Header("Level : 0.1")]
     //Realm0.1
     [SerializeField] GameObject startRoomDungeon;
     [SerializeField] GameObject endRoomDungeon;
     [SerializeField] GameObject[] enemiesRoomsDungeon;
     [SerializeField] GameObject[] uniqueRoomsDungeon;
+    [SerializeField] TileBase[] floorTilesDungeon;
 
 
     //Realm1.0
@@ -37,7 +40,6 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
     [SerializeField] Transform coridorsParentTransform;
     Tilemap floorTilemap;
     Tilemap wallsTilemap;
-    [SerializeField] TileBase[] floorTiles;
     [SerializeField] TileBase[] leftWallTiles;
     [SerializeField] TileBase[] rightWallTiles;
     [SerializeField] TileBase[] downWallTiles;
@@ -56,6 +58,7 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
     GameObject endRoom;
     GameObject[] enemiesRooms;
     GameObject[] uniqueRooms;
+    TileBase[] floorTiles;
 
     protected override void Awake()
     {
@@ -113,7 +116,7 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
             isHorizontalDirection = !isHorizontalDirection;
 
             GameObject roomObj = CreateRoom(i+1 == amountOfRooms ? endRoom :
-                (Random.Range(0, 2) == 1) ? uniqueRooms[Random.Range(0, uniqueRooms.Length)] : 
+                (Random.Range(0, 7) == 6) ? uniqueRooms[Random.Range(0, uniqueRooms.Length)] : 
                 enemiesRooms[Random.Range(0, enemiesRooms.Length)], curRoomPos);
             Room room = roomObj.GetComponent<Room>();
             FindNeighbours(createdRoomsPositionsList, curRoomPos, prevRoomPos, room);
@@ -183,7 +186,8 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
             }
         }
     }
-    
+
+
     void GenerateCorridors(List<Vector2Int> roomsPositionsList)
     {
         GameObject floorTilemapObject = Instantiate(floorTilemapPrefab, Vector3.zero, Quaternion.identity, coridorsParentTransform);
@@ -331,16 +335,19 @@ public class LevelGenerationManager : SingletonMonobehaviour<LevelGenerationMana
                 switch (Settings.curDungeonRealm)
                 {
                     case 0:
+
                         startRoom = startRoomForest;
                         endRoom = endRoomForest;
                         enemiesRooms = enemiesRoomsForest;
                         uniqueRooms = uniqueRoomsForest;
+                        floorTiles = floorTilesForest;
                         break;
                     case 1:
                         startRoom = startRoomDungeon;
                         endRoom = endRoomDungeon;
                         enemiesRooms = enemiesRoomsDungeon;
                         uniqueRooms = uniqueRoomsDungeon;
+                        floorTiles = floorTilesDungeon;
                         break;
                     default:
                         break;

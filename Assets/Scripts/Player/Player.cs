@@ -21,6 +21,7 @@ public class Player : SingletonMonobehaviour<Player>
     [Header("UI")]
     [SerializeField] GameObject inputUI;
     [SerializeField] GameObject playerInterface;
+    [SerializeField] GameObject playerTextCanvas;
     [SerializeField] Image[] bars;
     [SerializeField] TextMeshProUGUI[] barsText;
     [SerializeField] TextMeshProUGUI goldText;
@@ -228,6 +229,7 @@ public class Player : SingletonMonobehaviour<Player>
     {
         isLookingOnRight = !isLookingOnRight;
         transform.localScale = new Vector2(transform.localScale.x == 1 ? -1 : 1, 1);
+        playerTextCanvas.transform.localScale = new Vector2(playerTextCanvas.transform.localScale.x == 1 ? -1 : 1, 1);
     }
 
     void Shoot(int i)

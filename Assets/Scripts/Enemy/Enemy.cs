@@ -11,6 +11,15 @@ public class Enemy : MonoBehaviour
     [SerializeField] SO_Weapon weapon;
     [SerializeField] Rigidbody2D rb;
     [SerializeField] GameObject deadBodyPrefab;
+    [SerializeField] Sprite deadSprite;
+
+    [Header("Gift")]
+    [SerializeField] GameObject manaPrefab;
+    [SerializeField] GameObject goldPrefab;
+    [SerializeField] int minManaOnDeath;
+    [SerializeField] int maxManaOnDeath;
+    [SerializeField] int minGoldOnDeath;
+    [SerializeField] int maxGoldOnDeath;
 
     [Header("Enemy")]
     [SerializeField] int behaviourType; //melee, middle, far
@@ -27,6 +36,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] float meleeReloadingTimeMax;
     [SerializeField] float attackDistance;
     [SerializeField] float attackTime;
+
 
     [Header("Middle")]
     [SerializeField] int distanceRandomTargetPickOnSeesPlayer;
@@ -272,12 +282,26 @@ public class Enemy : MonoBehaviour
 
         Settings.curentEarntCrystals += crystalsOnDeath * Settings.curCrystalsMulptlier;
 
-
         GameObject deadBodyObj = Instantiate(deadBodyPrefab, transform.position, Quaternion.identity, deadBodyParent);
+        SpriteRenderer deadBodySprite = deadBodyObj.GetComponent<SpriteRenderer>();
+        deadBodySprite.sprite = deadSprite;
         Rigidbody2D deadBodyRb = deadBodyObj.GetComponent<Rigidbody2D>();
         deadBodyRb.AddForce(lastImpactPos * lastImpactDistance, ForceMode2D.Impulse);
-        
+
+        InstantiateGift(manaPrefab, Random.Range(minManaOnDeath, maxManaOnDeath));
+        InstantiateGift(goldPrefab, Random.Range(minGoldOnDeath, maxGoldOnDeath));
+
         Destroy(gameObject);
     }
 
+    void InstantiateGift(GameObject prefab, int amount)
+    {
+        for (int i = 0; i < amount; i++)
+        {
+            float x = transform.position.x;
+            float y = transform.position.y;
+            Vector2 randomPos = new Vector2(Random.Range(x - 2, x + 2), Random.Range(y - 2, y + 2));
+            Instantiate(prefab, randomPos, Quaternion.identity);
+        }
+    }
 }

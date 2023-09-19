@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5396898046633677645}
   - component: {fileID: 5396898046633677644}
   m_Layer: 0
-  m_Name: EnemyBullet
+  m_Name: EnemySniperRiffleBullet
   m_TagString: EnemyBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 5396898046633677643}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 309bb2d8a1320cc48ba6f61faf78acab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
+  damage: 2
 --- !u!50 &5396898046633677646
 Rigidbody2D:
   serializedVersion: 4

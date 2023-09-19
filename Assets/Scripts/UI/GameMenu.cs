@@ -27,6 +27,7 @@ public class GameMenu : SingletonMonobehaviour<GameMenu>
 
     void Start()
     {
+        Time.timeScale = 1f;
         musicImage.color = new Color(255, 255, 255, (Settings.isMusicOn ? 0.5f : 1));
     }
 

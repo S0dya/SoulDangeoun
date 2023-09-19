@@ -55,19 +55,26 @@ MonoBehaviour:
   weapon: {fileID: 11400000, guid: 78f31d293f5719841bad7f94885756f3, type: 2}
   rb: {fileID: 4225549585042992105}
   deadBodyPrefab: {fileID: 1758218144339039996, guid: d8af6c76661bbc040bda98f4d41bebc2, type: 3}
+  deadSprite: {fileID: 21300000, guid: 46b2163eef3db9e48bc7f5a2166ae7ec, type: 3}
+  manaPrefab: {fileID: 2279062116325433078, guid: a0efd1345fc2ea246ad07c6cf9197288, type: 3}
+  goldPrefab: {fileID: 5933443650868937537, guid: 1e0a1e104fe04d342af7ffbb1b43d942, type: 3}
+  minManaOnDeath: 0
+  maxManaOnDeath: 0
+  minGoldOnDeath: 0
+  maxGoldOnDeath: 0
   behaviourType: 0
   crystalsOnDeath: 0.25
   HPMultiplier: 1
   distanceRandomTargetPick: 1
   minTimeRandomTargetPick: 2
   maxTimeRandomTargetPick: 8
-  inputFromAttackMuiltiplier: 0
+  inputFromAttackMuiltiplier: 2
   meleeForce: 2
   meleeCollider: {fileID: 6149461300873724784}
   meleeReloadingTimeMin: 2
   meleeReloadingTimeMax: 4
-  attackDistance: 0
-  attackTime: 0
+  attackDistance: 2.2
+  attackTime: 3
   distanceRandomTargetPickOnSeesPlayer: 0
   seesPlayer: 0
 --- !u!195 &4225549585042992107
@@ -80,7 +87,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.24
-  m_Speed: 3.5
+  m_Speed: 2.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -133,7 +140,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c61d66a21bdda884d8f9784cd609e6ab, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ec5848a57f8e2db4e997eb7907e57850, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -413,7 +420,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07abb44968f9f6e4ca9df314434b5fcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
+  damage: 2
 --- !u!58 &6149461300873724784
 CircleCollider2D:
   m_ObjectHideFlags: 0

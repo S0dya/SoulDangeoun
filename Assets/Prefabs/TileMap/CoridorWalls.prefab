@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1213168284437043605}
   - component: {fileID: 8145635305638378881}
   - component: {fileID: -7708500123696539120}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: CoridorWalls
   m_TagString: CoridorsWalls
   m_Icon: {fileID: 0}

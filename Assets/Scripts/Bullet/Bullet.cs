@@ -5,12 +5,13 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] LayerMask enemyLayer;
+    [SerializeField] LayerMask obstacleLayer;
     [SerializeField] float damage;
     [SerializeField] float bulletImpact;
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Obstacle"))
+        if (collision.gameObject.CompareTag("Obstacle") || obstacleLayer == (obstacleLayer | (1 << collision.gameObject.layer)))
         {
             Destroy(gameObject);
         }

@@ -16,6 +16,24 @@ public class Room : MonoBehaviour
     public bool cleared;
 
     [SerializeField] Tilemap wallTilemap;
+    [SerializeField] Tilemap floorTilemap;
+
+    [SerializeField] TileBase[] floorTiles;
+
+    void Start()
+    {
+        DrawFloor();
+    }
+    void DrawFloor()
+    {
+        for (int x = -halfSize.x; x < halfSize.x; x++)
+        {
+            for (int y = -halfSize.y; y < halfSize.y; y++)
+            {
+                floorTilemap.SetTile(new Vector3Int(x, y, 0), floorTiles[Random.Range(0, floorTiles.Length)]);
+            }
+        }
+    }
 
     public void DrawWalls(bool val)
     {
@@ -27,6 +45,8 @@ public class Room : MonoBehaviour
             }
         }
     }
+
+    
 
     void OnTriggerEnter2D(Collider2D collision)
     {

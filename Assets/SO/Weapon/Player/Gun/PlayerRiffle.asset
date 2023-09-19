@@ -18,7 +18,7 @@ MonoBehaviour:
   <Price>k__BackingField: 18
   type: 0
   manaOnShoot: 5
-  speedOfMovementMultiplier: 0.5
+  speedOfMovementMultiplier: 0.4
   bulletPrefab: {fileID: 5396898046633677643, guid: 52efc0596f0059b41919623ba87e7cf8, type: 3}
   speed: 40
   amountToShoot: 3

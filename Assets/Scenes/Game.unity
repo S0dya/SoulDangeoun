@@ -217,6 +217,7 @@ MonoBehaviour:
   - {fileID: 1013899996}
   inputUI: {fileID: 2007512678}
   playerInterface: {fileID: 1359426698}
+  playerTextCanvas: {fileID: 1272854638}
   bars:
   - {fileID: 1488228792}
   - {fileID: 1361331453}
@@ -1203,6 +1204,10 @@ MonoBehaviour:
   uniqueRoomsForest:
   - {fileID: 616457233749272306, guid: f3c3546ea9ad34f49b462cf302fd2a55, type: 3}
   - {fileID: 616457233749272306, guid: bfa56522fde46dc40b6f600871e20b42, type: 3}
+  floorTilesForest:
+  - {fileID: 11400000, guid: c330d72c1f4124249b08f9f5ab8e2e9d, type: 2}
+  - {fileID: 11400000, guid: b4f34348c25114f44817a43ac6708a97, type: 2}
+  - {fileID: 11400000, guid: 2acefdf6959ca6242990b1b75b6e85f4, type: 2}
   startRoomDungeon: {fileID: 616457233749272306, guid: fc3d9fbecd384bb4f9275530a76e9682, type: 3}
   endRoomDungeon: {fileID: 616457233749272306, guid: 21018e86f07820e49aa21335e1251587, type: 3}
   enemiesRoomsDungeon:
@@ -1211,12 +1216,14 @@ MonoBehaviour:
   uniqueRoomsDungeon:
   - {fileID: 616457233749272306, guid: f3c3546ea9ad34f49b462cf302fd2a55, type: 3}
   - {fileID: 616457233749272306, guid: bfa56522fde46dc40b6f600871e20b42, type: 3}
+  floorTilesDungeon:
+  - {fileID: 11400000, guid: e0abbf64483055f4fbb15e63f65de818, type: 2}
+  - {fileID: 11400000, guid: 2acb169f06405c1448b2a0d02b0f57d1, type: 2}
+  - {fileID: 11400000, guid: 5720a10ac4bb72b49b52ebedfa490dc6, type: 2}
   floorTilemapPrefab: {fileID: 138419215114487352, guid: e1835ee43f67bdb4a9cfd77b8ddc1f36, type: 3}
   wallsTilemapPrefab: {fileID: 1213168284437043603, guid: 82becce3266b7b94ba4f3e8ef8cc9da0, type: 3}
   levelsParentTransform: {fileID: 860724539}
   coridorsParentTransform: {fileID: 286023383}
-  floorTiles:
-  - {fileID: 11400000, guid: 2355c1aeca8300447b9c6f5ddc63acb1, type: 2}
   leftWallTiles:
   - {fileID: 11400000, guid: e34cb5f2c1fe0c14b928a7b5b1520b65, type: 2}
   rightWallTiles:
@@ -9229,10 +9236,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   closeEnemies:
   - {fileID: 4225549585042992110, guid: 6cb0559eaabe6e942af3f0b26123a4c5, type: 3}
+  - {fileID: 4225549585042992110, guid: 9417819f32cebf7419e19c5246941e71, type: 3}
   middleEnemies:
   - {fileID: 4225549585042992110, guid: aeeb021b48d92e1429855049b13fa15f, type: 3}
+  - {fileID: 4225549585042992110, guid: 1dbda40bb3d41e142a6843e98c00c488, type: 3}
   farEnemies:
   - {fileID: 4225549585042992110, guid: d4f6030988a57954e88aead6b2e032ea, type: 3}
+  - {fileID: 4225549585042992110, guid: 87935b50d2e227a44823fafa4af220a7, type: 3}
   enemiesParent: {fileID: 2066805712}
   chestPrefab: {fileID: 8387544120972304950, guid: 6874628e7f7bac440a33e6c18df3a089, type: 3}
   itemChestPrefab: {fileID: 7149660322591746948, guid: d90362d712200a344b4333529810b977, type: 3}
@@ -9245,6 +9255,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 209864b5eab326440a7521b46b2b750d, type: 2}
   - {fileID: 11400000, guid: 02ee3e2a891eb8a4590e6deb6cc2bda8, type: 2}
   - {fileID: 11400000, guid: deda7973ef352ad4ea8eed6ba0d600fb, type: 2}
+  - {fileID: 11400000, guid: d7d8114f35419124484b9da5a722be9c, type: 2}
+  - {fileID: 11400000, guid: 15328a5b832fd594ea051190d14c709b, type: 2}
   potionsLittle:
   - {fileID: 11400000, guid: 27c5eb527585cea4eb5d5d5f6f40cdec, type: 2}
   - {fileID: 11400000, guid: 9cbacbc9b16344c4d8b31aa632969b0c, type: 2}

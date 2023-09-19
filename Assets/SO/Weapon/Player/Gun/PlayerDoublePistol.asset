@@ -13,18 +13,18 @@ MonoBehaviour:
   m_Name: PlayerDoublePistol
   m_EditorClassIdentifier: 
   <itemCode>k__BackingField: 0
-  <Name>k__BackingField: pistol
+  <Name>k__BackingField: Double pistol
   <ItemImage>k__BackingField: {fileID: 21300000, guid: 5214755098e7b7048a9fede45d6e770c, type: 3}
   <Price>k__BackingField: 28
   type: 0
   manaOnShoot: 1
-  speedOfMovementMultiplier: 0
+  speedOfMovementMultiplier: 0.01
   bulletPrefab: {fileID: 4597922109233015504, guid: f6c59b08e2eddd041917455d61ff629b, type: 3}
   speed: 20
   amountToShoot: 2
   shootingSpread: 0
   recoil: 0
-  delayOfShooting: 0.25
+  delayOfShooting: 0.1
   delayOfShootingWithDoubleWeapon: 0.05
   reloadingTimeMin: 0.7
   reloadingTimeMax: 1

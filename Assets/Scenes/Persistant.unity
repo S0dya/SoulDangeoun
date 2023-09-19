@@ -177,7 +177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.48636523, g: 0.7709709, b: 0.8679245, a: 1}
+  m_Color: {r: 0.23182626, g: 0.32005116, b: 0.3490566, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -258,6 +258,62 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fcc3f804db5b0f47b7358246941f217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <MusicMainMenu>k__BackingField:
+    Guid:
+      Data1: 384285006
+      Data2: 1102174994
+      Data3: 1622394753
+      Data4: 2097179200
+    Path: event:/Music/Menu
+  <MusicHub>k__BackingField:
+    Guid:
+      Data1: 174823286
+      Data2: 1087467531
+      Data3: 450138497
+      Data4: -2011473597
+    Path: event:/Music/Hub
+  <MusicFight>k__BackingField:
+    Guid:
+      Data1: 728841582
+      Data2: 1260902814
+      Data3: 561263537
+      Data4: -1477437296
+    Path: event:/Music/Fight
+  <MusicNoFight>k__BackingField:
+    Guid:
+      Data1: -1893287245
+      Data2: 1219138004
+      Data3: 1772618921
+      Data4: 678199658
+    Path: event:/Music/NoFight
+  <RoomCleared>k__BackingField:
+    Guid:
+      Data1: -409370378
+      Data2: 1252856068
+      Data3: -741267837
+      Data4: -1673588807
+    Path: event:/SFX/RoomCleared
+  <PlayerStepSound>k__BackingField:
+    Guid:
+      Data1: -249521726
+      Data2: 1210875026
+      Data3: 235848119
+      Data4: -93414604
+    Path: event:/SFX/Player/FootSteps
+  <ShootSound>k__BackingField:
+    Guid:
+      Data1: -1287015188
+      Data2: 1332070732
+      Data3: -1320953443
+      Data4: 1438168400
+    Path: event:/SFX/Player/Shoot
+  <ButtonPress>k__BackingField:
+    Guid:
+      Data1: -95167883
+      Data2: 1215818893
+      Data3: 1963091856
+      Data4: 1140244416
+    Path: event:/SFX/ButtonPress
 --- !u!1 &457705666
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,10 +347,10 @@ RectTransform:
   m_Father: {fileID: 79830134}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.4474792, y: 0.407}
+  m_AnchorMax: {x: 0.55200005, y: 0.5905926}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &457705668
 MonoBehaviour:
@@ -316,7 +372,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: eebc75f2cb24c684db42fe5808423859, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ec5848a57f8e2db4e997eb7907e57850, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -530,9 +586,54 @@ Transform:
   - {fileID: 1687725333}
   - {fileID: 1842502579}
   - {fileID: 94059454}
+  - {fileID: 848252514}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &848252513
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 848252514}
+  - component: {fileID: 848252515}
+  m_Layer: 0
+  m_Name: AdsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &848252514
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 848252513}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 652420255}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &848252515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 848252513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d085e54fec497c48823a29bf9e16bad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1365954679
 GameObject:
   m_ObjectHideFlags: 0

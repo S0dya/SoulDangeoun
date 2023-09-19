@@ -28,7 +28,6 @@ public class SO_Weapon : SO_Item
     public Vector2 colliderSize;
     public float timeColliderEnabled;
 
-    
     public void Shoot(Vector2 initialPos, Vector2 shootingDirection)
     {
         switch (type)

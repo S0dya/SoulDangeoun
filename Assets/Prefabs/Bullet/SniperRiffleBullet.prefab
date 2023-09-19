@@ -53,7 +53,7 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 1024
-  damage: 4
+  damage: 7
   bulletImpact: 5
 --- !u!50 &5396898046633677646
 Rigidbody2D:

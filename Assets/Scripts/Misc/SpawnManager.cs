@@ -126,11 +126,7 @@ public class SpawnManager : SingletonMonobehaviour<SpawnManager>
         foreach (Transform enemy in enemiesParent) Destroy(enemy.gameObject);//delm
         foreach (Transform deadBody in deadBodyParent) Destroy(deadBody.gameObject);
         foreach (Transform chest in chestParent) Destroy(chest.gameObject);
-        foreach (Transform pickable in pickableParent)
-        {
-            Debug.Log("a"); 
-            Destroy(pickable.gameObject);
-        }
+        foreach (Transform pickable in pickableParent) Destroy(pickable.gameObject);
     }
 
     //spawn pickable objects
@@ -139,7 +135,6 @@ public class SpawnManager : SingletonMonobehaviour<SpawnManager>
         GameObject[] pickableShopItems = GameObject.FindGameObjectsWithTag("PickableShopItem");
         foreach (GameObject item in pickableShopItems)
         {
-            Debug.Log("s");
             SpawnPickable(item.transform.position, (Random.Range(0, 6) < 4 ? 0 : 1), true);
         }
     }

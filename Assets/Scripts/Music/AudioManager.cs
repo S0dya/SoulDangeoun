@@ -16,41 +16,21 @@ public class AudioManager : SingletonMonobehaviour<AudioManager>
     Coroutine fadeOutCoroutine;
     Coroutine randomSFXCor;
 
-
-    /*
-
-    [field: SerializeField] public EventReference Ambience { get; private set; }
-    [field: SerializeField] public EventReference Rain { get; private set; }
-
     [field: Header("Music")]
-
-    [field: SerializeField] public EventReference Music { get; private set; }
+    [field: SerializeField] public EventReference MusicMainMenu { get; private set; }
+    [field: SerializeField] public EventReference MusicHub { get; private set; }
+    [field: SerializeField] public EventReference MusicFight { get; private set; }
+    [field: SerializeField] public EventReference MusicNoFight { get; private set; }
 
     [field: Header("Enverenment")]
-    [field: SerializeField] public EventReference RandomSFX { get; private set; }
-    [field: SerializeField] public EventReference Thunder { get; private set; }
-    [field: SerializeField] public EventReference Exit { get; private set; }
-
+    [field: SerializeField] public EventReference RoomCleared { get; private set; }
 
     [field: Header("Player")]
-
     [field: SerializeField] public EventReference PlayerStepSound { get; private set; }
-    [field: SerializeField] public EventReference PlayerStepSoundOnWater { get; private set; }
-    [field: SerializeField] public EventReference DieSound { get; private set; }
-
-    [field: Header("Enemy")]
-
-
-    [field: SerializeField] public EventReference DefIdle { get; private set; }
-    [field: SerializeField] public EventReference DefJump { get; private set; }
-
-    [field: SerializeField] public EventReference BlindIdle { get; private set; }
-    [field: SerializeField] public EventReference BlindJump { get; private set; }
+    [field: SerializeField] public EventReference ShootSound { get; private set; }
 
     [field: Header("UI")]
-
     [field: SerializeField] public EventReference ButtonPress { get; private set; }
-        */
 
     protected override void Awake()
     {
@@ -59,28 +39,22 @@ public class AudioManager : SingletonMonobehaviour<AudioManager>
         eventInstances = new List<EventInstance>();
         eventEmitters = new List<StudioEventEmitter>();
         EventInstancesDict = new Dictionary<string, EventInstance>();
-
     }
 
     void Start()
     {
-        /*
-        EventInstancesDict.Add("Music", CreateInstance(Music)); 
-        EventInstancesDict.Add("RandomSFX", CreateInstance(RandomSFX));
-        EventInstancesDict.Add("Ambience", CreateInstance(Ambience));
-        EventInstancesDict.Add("Rain", CreateInstance(Rain));
+        ToggleSound(Settings.isMusicOn);
 
-        EventInstancesDict.Add("ButtonPress", CreateInstance(ButtonPress));
-        EventInstancesDict.Add("Exit", CreateInstance(Exit));
-        //EventInstancesDict.Add("PlaySound", CreateInstance(PlaySound));
-        //EventInstancesDict.Add("GameOverSound", CreateInstance(GameOverSound));
+        EventInstancesDict.Add("MusicMainMenu", CreateInstance(MusicMainMenu)); 
+        EventInstancesDict.Add("MusicHub", CreateInstance(MusicHub));
+        EventInstancesDict.Add("MusicFight", CreateInstance(MusicFight));
+        EventInstancesDict.Add("MusicNoFight", CreateInstance(MusicNoFight));
 
         EventInstancesDict.Add("PlayerStepSound", CreateInstance(PlayerStepSound));
-        EventInstancesDict.Add("DieSound", CreateInstance(DieSound));
+        EventInstancesDict.Add("ShootSound", CreateInstance(ShootSound));
 
-        /*
-        EventInstancesDict.Add("PlayerStepSoundOnWater", CreateInstance(PlayerStepSoundOnWater));
-        */
+        EventInstancesDict.Add("RoomCleared", CreateInstance(RoomCleared));
+        EventInstancesDict.Add("ButtonPress", CreateInstance(ButtonPress));
     }
 
     public void SetParameter(string instanceName, string parameterName, float value)
@@ -145,6 +119,14 @@ public class AudioManager : SingletonMonobehaviour<AudioManager>
                 emitter.Stop();
             }
         }
+    }
+
+    public void StopMusic()
+    {
+        EventInstancesDict["MusicMainMenu"].stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        EventInstancesDict["MusicHub"].stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        EventInstancesDict["MusicFight"].stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        EventInstancesDict["MusicNoFight"].stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
     }
 
     public void ToggleSound(bool val)

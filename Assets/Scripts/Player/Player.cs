@@ -8,7 +8,8 @@ public class Player : SingletonMonobehaviour<Player>
 {
     [SerializeField] FloatingJoystick fJoystick;
     [SerializeField] Rigidbody2D rb;
-
+    [SerializeField] Animator animator;
+    
     public SO_Weapon[] weapons;
     [SerializeField] Transform[] weaponsTransform;
     [SerializeField] Transform[] weaponsShootingTransform;
@@ -42,7 +43,7 @@ public class Player : SingletonMonobehaviour<Player>
     [HideInInspector] public bool hasResurrected;
 
     //local
-    public int[] maxStats;
+    [HideInInspector] public int[] maxStats;
     float[] curStats = new float[3] { 1, 1, 1};
     float curMana = 1;
     [HideInInspector] public int curGold;
@@ -101,10 +102,14 @@ public class Player : SingletonMonobehaviour<Player>
     //Input
     public void StartMoving()
     {
+        animator.Play("Walking");
+
         movementCor = StartCoroutine(MovementCor());
     }
     public void StopMoving()
     {
+        animator.Play("Default");
+
         if (movementCor != null) StopCoroutine(movementCor);
     }
     
@@ -170,6 +175,8 @@ public class Player : SingletonMonobehaviour<Player>
             {
                 ChangeLookingDirection();
             }
+
+            animator.speed = fJoystick.Direction.magnitude;
             yield return null;
         }
     }
@@ -243,8 +250,12 @@ public class Player : SingletonMonobehaviour<Player>
         if (weapons[weaponI].type == 1)
         {
             weaponsAnimator[i].Play("Swing");
-
         }
+        else
+        {
+            AudioManager.I.PlayOneShot("ShootSound");
+        }
+
         ChangeMana(weapons[weaponI].manaOnShoot);
     }
 
@@ -334,6 +345,10 @@ public class Player : SingletonMonobehaviour<Player>
     }
 
 
+    public void PlayStepSound()
+    {
+        AudioManager.I.PlayOneShot("PlayerStepSound");
+    }
 
     public void EnablePlayer()
     {

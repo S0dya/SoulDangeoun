@@ -28,7 +28,7 @@ public class GameMenu : SingletonMonobehaviour<GameMenu>
     void Start()
     {
         Time.timeScale = 1f;
-        musicImage.color = new Color(255, 255, 255, (Settings.isMusicOn ? 0.5f : 1));
+        musicImage.color = new Color(255, 255, 255, (Settings.isMusicOn ? 1 : 0.5f));
     }
 
     //buttons
@@ -46,6 +46,7 @@ public class GameMenu : SingletonMonobehaviour<GameMenu>
 
     public void OnHomeButton()
     {
+        Settings.crystalsAmount += (int)Settings.curentEarntCrystals;
         LoadingSceneManager.I.LoadMenu(true);
     }
 
@@ -67,7 +68,7 @@ public class GameMenu : SingletonMonobehaviour<GameMenu>
     public void ToggleMusic(bool val)
     {
         Settings.isMusicOn = val;
-        musicImage.color = new Color(255, 255, 255, (val ? 0.5f : 1));
+        musicImage.color = new Color(255, 255, 255, (val ? 1 : 0.5f));
         AudioManager.I.ToggleSound(val);
     }
 
@@ -81,7 +82,7 @@ public class GameMenu : SingletonMonobehaviour<GameMenu>
     {
         if (Player.I.hasResurrected)
         {
-            //showAd
+            AdsManager.I.ShowRewardedAd();
         }
     }
 
@@ -104,8 +105,20 @@ public class GameMenu : SingletonMonobehaviour<GameMenu>
 
     public void CountKilledEnemies()
     {
-        killedCloseEnemiesText.text = $"close enemies killed {Settings.amountOfKilledCloseEnemies}";
-        killedMiddleEnemiesText.text = $"middle enemies killed {Settings.amountOfKilledMiddleEnemies}";
-        killedFarEnemiesText.text = $"far enemies killed {Settings.amountOfKilledFarEnemies}";
+        killedCloseEnemiesText.text = $" close enemies killed {Settings.amountOfKilledCloseEnemies}";
+        killedMiddleEnemiesText.text = $" middle enemies killed {Settings.amountOfKilledMiddleEnemies}";
+        killedFarEnemiesText.text = $" far enemies killed {Settings.amountOfKilledFarEnemies}";
+    }
+
+    public void RewardPlayer()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            Player.I.ChangeValueForBar(i, -Player.I.maxStats[i]);
+        }
+        Player.I.hasResurrected = true;
+
+        GameManager.I.Close(gameoverCanvasGroup, 0.1f);
+        Time.timeScale = 1f;
     }
 }

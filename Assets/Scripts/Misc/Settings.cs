@@ -5,7 +5,7 @@ using UnityEngine;
 public static class Settings
 {
     public static float curMulptlier;
-    public static int crystalsAmount = 1551;
+    public static int crystalsAmount;
 
     public static float curCrystalsMulptlier = 1;
     public static float curentEarntCrystals;
@@ -13,15 +13,14 @@ public static class Settings
     //player
     public static float speedMultiplier = 1;
 
-    public static Color colorHealth = new Color(255, 0, 0);
-    public static Color colorMana = new Color(0, 0, 255);
+    public static Color colorHealth = new Color(235, 0, 0);
+    public static Color colorMana = new Color(0, 0, 235);
 
     /// <summary>
     /// level generation 
     /// </summary>
     public static int width = 35;
     public static int height = 25;
-
 
     //local
     public static int curLevel = 0;
@@ -59,14 +58,15 @@ public static class Settings
     public static int[] upgradePrices = new int[] { 1000, 1500, 2000 };
 
     //powers
-    public static float[] reloadOfPowers = new float[] { 3, 3, 5 };
-    public static float[] durationOfPowers = new float[] {4, 4, 6 };
+    public static float[] reloadOfPowers = new float[] { 4, 5, 4.5f };
+    public static float[] durationOfPowers = new float[] { 3, 2.5f, 4 };
 
     //shop in game
     public static float priceMultiplaer = 1;
 
     //settings
     public static bool isMusicOn = true;
+    public static bool firstTime = true;
 
     //methods
     public static void NextLevel()

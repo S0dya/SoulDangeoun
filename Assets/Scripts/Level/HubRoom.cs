@@ -47,10 +47,18 @@ public class HubRoom : MonoBehaviour
         crystalsAmount.text = Settings.crystalsAmount.ToString();
     }
 
+    void Start()
+    {
+        AudioManager.I.StopMusic();
+        AudioManager.I.EventInstancesDict["MusicHub"].start();
+    }
+
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            AudioManager.I.StopMusic();
+            AudioManager.I.EventInstancesDict["MusicFight"].start();
             LevelGenerationManager.I.GenerateLevel();
         }
     }
@@ -88,7 +96,7 @@ public class HubRoom : MonoBehaviour
         player.weapons[0] = weapons[curIndex];
         PowerButton.I.ChangePower(curIndex);
 
-        var playerSR = playerObj.GetComponent<SpriteRenderer>();
+        var playerSR = playerObj.GetComponentInChildren<SpriteRenderer>();
         playerSR.sprite = sprites[curIndex];
 
         GameManager.I.Close(characterPanelCG, 0.1f);

@@ -19,7 +19,7 @@ public class Menu : SingletonMonobehaviour<Menu>
     }
     void Start()
     {
-        musicImage.color = new Color(255, 255, 255, (Settings.isMusicOn ? 0.5f : 1));
+        musicImage.color = new Color(255, 255, 255, (Settings.isMusicOn ? 1 : 0.5f));
     }
 
     //buttons
@@ -61,7 +61,7 @@ public class Menu : SingletonMonobehaviour<Menu>
     public void ToggleMusic(bool val)
     {
         Settings.isMusicOn = val;
-        musicImage.color = new Color(255, 255, 255, (val ? 0.5f : 1));
+        musicImage.color = new Color(255, 255, 255, (val ? 1 : 0.5f));
         AudioManager.I.ToggleSound(val);
     }
 }

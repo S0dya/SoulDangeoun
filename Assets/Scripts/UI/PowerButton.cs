@@ -137,17 +137,16 @@ public class PowerButton : SingletonMonobehaviour<PowerButton>
 
             yield return null;
         }
+
         activityOfPowerButton.fillAmount = 0;
         canUsePower = true;
     }
-
-    
-
 
     public void ChangePower(int i)
     {
         reloadOfPower = Settings.reloadOfPowers[i];
         durationOfPower = Settings.durationOfPowers[i];
+
 
         switch (i)
         {

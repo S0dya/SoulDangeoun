@@ -9,14 +9,10 @@ public class GameManager : SingletonMonobehaviour<GameManager>
     {
         base.Awake();
 
-    }
-
-    void Start()
-    {
         LoadData();
-    }
+        Settings.firstTime = false;
 
-    
+    }
 
     //UI
     public void Open(CanvasGroup CG, float duration)
@@ -87,28 +83,34 @@ public class GameManager : SingletonMonobehaviour<GameManager>
         }
 
         //bool
+        PlayerPrefs.SetInt("firstTime", Settings.firstTime ? 0 : 1);
         PlayerPrefs.SetInt("isMusicOn", Settings.isMusicOn ? 0 : 1);
     }
 
     public void LoadData() 
     {
-        //int/float
-        Settings.crystalsAmount = PlayerPrefs.GetInt("crystalsAmount");
+        Settings.firstTime = (PlayerPrefs.GetInt("firstTime") == 0);
 
-        for (int i = 0; i < Settings.healths.Length; i++)
+        if (!Settings.firstTime)
         {
-            Settings.healths[i] = PlayerPrefs.GetInt($"healths {i}");
-            Settings.shields[i] = PlayerPrefs.GetInt($"shields {i}");
-            Settings.mana[i] = PlayerPrefs.GetInt($"mana {i}");
-            Settings.currentUpgrade[i] = PlayerPrefs.GetInt($"currentUpgrade {i}");
-            Settings.charactersPrice[i] = PlayerPrefs.GetInt($"charactersPrice {i}");
-            Settings.upgradePrices[i] = PlayerPrefs.GetInt($"upgradePrices {i}");
-            Settings.reloadOfPowers[i] = PlayerPrefs.GetFloat($"reloadOfPowers {i}");
-            Settings.durationOfPowers[i] = PlayerPrefs.GetFloat($"durationOfPowers {i}");
-        }
+            //int/float
+            Settings.crystalsAmount = PlayerPrefs.GetInt("crystalsAmount");
 
-        //bool
-        Settings.isMusicOn = (PlayerPrefs.GetInt("isMusicOn") == 0);
+            for (int i = 0; i < Settings.healths.Length; i++)
+            {
+                Settings.healths[i] = PlayerPrefs.GetInt($"healths {i}");
+                Settings.shields[i] = PlayerPrefs.GetInt($"shields {i}");
+                Settings.mana[i] = PlayerPrefs.GetInt($"mana {i}");
+                Settings.currentUpgrade[i] = PlayerPrefs.GetInt($"currentUpgrade {i}");
+                Settings.charactersPrice[i] = PlayerPrefs.GetInt($"charactersPrice {i}");
+                Settings.upgradePrices[i] = PlayerPrefs.GetInt($"upgradePrices {i}");
+                Settings.reloadOfPowers[i] = PlayerPrefs.GetFloat($"reloadOfPowers {i}");
+                Settings.durationOfPowers[i] = PlayerPrefs.GetFloat($"durationOfPowers {i}");
+            }
+
+            Settings.isMusicOn = (PlayerPrefs.GetInt("isMusicOn") == 0);
+        }
+        
     }
 
 }

@@ -17,12 +17,14 @@ public class LoadingSceneManager : SingletonMonobehaviour<LoadingSceneManager>
 
     void Start()
     {
-        //LoadMenu(false);
+        LoadMenu(false);
     }
 
 
     public void LoadMenu(bool val)
     {
+        AudioManager.I.StopMusic();
+        AudioManager.I.EventInstancesDict["MusicMainMenu"].start();
         StartCoroutine(LoadSceneCor(val, 2, 1));
     }
     
@@ -62,6 +64,10 @@ public class LoadingSceneManager : SingletonMonobehaviour<LoadingSceneManager>
     
     public void OpenLoadingScreen()
     {
+        if (Settings.isMusicOn)
+        {
+            AudioManager.I.ToggleSound(false);
+        }
         SetFillAmount(0);
         GameManager.I.Open(loadingScreenCanvasGroup, 0.1f);
     }
@@ -71,7 +77,10 @@ public class LoadingSceneManager : SingletonMonobehaviour<LoadingSceneManager>
     }
     public void CloseLoadingScreen()
     {
-        GameManager.I.Close(loadingScreenCanvasGroup, 0.6f);
-
+        if (Settings.isMusicOn)
+        {
+            AudioManager.I.ToggleSound(true);
+        }
+        GameManager.I.Close(loadingScreenCanvasGroup, 0.2f);
     }
 }

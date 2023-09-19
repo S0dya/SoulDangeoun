@@ -25,6 +25,7 @@ TagManager:
   - DeadBodyParent
   - PickableParent
   - PickableShopItem
+  - BulletParent
   layers:
   - Default
   - TransparentFX
